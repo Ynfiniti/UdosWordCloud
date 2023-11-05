@@ -5,6 +5,6 @@
 .idea/vcs.xml
 /UdoScraper/
 /.idea/inspectionProfiles/profiles_settings.xml
-/Scraper/articles.json
+/Scraper/testfiles/articles.json
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/jsonSchemas.xml
