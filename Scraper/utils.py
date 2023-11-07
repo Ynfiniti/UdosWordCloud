@@ -5,11 +5,10 @@ from spacy.language import Language
 # Disabling components not needed (optional, but useful if run on a large dataset)
 nlp = spacy.load(
     "en_core_web_lg",
-    disable=["tok2vec", "parser", "senter", "lemmatizer", "tagger", "attribute_ruler"],
+    disable=["tok2vec", "parser", "lemmatizer", "tagger", "attribute_ruler"]
 )
 nlp.add_pipe("merge_noun_chunks")
 nlp.add_pipe("merge_entities")
-
 
 def foo(my_number):
     square = my_number * my_number
@@ -44,7 +43,7 @@ def countWordsInText(text):
         elif token.text in wordCount.keys():
             wordCount[token.text]["amount"] = wordCount[token.text]["amount"] + 1
         elif not token.is_stop and not token.is_punct:
-            matched = checkMatches(token, wordCount)
+            matched = False
             if not matched:
                 wordCount[token.text] = {}
                 wordCount[token.text]["amount"] = 1
