@@ -6,6 +6,7 @@
 /UdoScraper/
 /.idea/inspectionProfiles/profiles_settings.xml
 /Scraper/testfiles/articles.json
+/Scraper/__pycache__/
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/jsonSchemas.xml
 .vscode/settings.json
