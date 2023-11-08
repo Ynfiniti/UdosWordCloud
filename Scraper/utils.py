@@ -5,7 +5,7 @@ from spacy.language import Language
 # Disabling components not needed (optional, but useful if run on a large dataset)
 nlp = spacy.load(
     "en_core_web_lg",
-    disable=["tok2vec", "parser", "lemmatizer", "tagger", "attribute_ruler"]
+    disable=["parser"]
 )
 nlp.add_pipe("merge_noun_chunks")
 nlp.add_pipe("merge_entities")
@@ -81,3 +81,6 @@ def parseArticle(doc):
         "topics": doc["keywords"],
         "wordCount": wordCount
     }
+
+def get(t):
+    return nlp(t)
