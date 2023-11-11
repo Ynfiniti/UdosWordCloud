@@ -7,6 +7,7 @@ nlp = spacy.load(
     "en_core_web_lg",
     disable=["parser"]
 )
+nlp.enable_pipe("senter")
 nlp.add_pipe("merge_noun_chunks")
 nlp.add_pipe("merge_entities")
 
