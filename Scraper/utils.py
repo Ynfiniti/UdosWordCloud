@@ -11,11 +11,15 @@ nlp.enable_pipe("senter")
 nlp.add_pipe("merge_noun_chunks")
 nlp.add_pipe("merge_entities")
 
-def foo(my_number):
-    square = my_number * my_number
-    time.sleep(0.5)
-    return square
-
+def getTopics(doc):
+    topics: set = {}
+    ks = list(map(lambda k: k["value"], doc["keywords"]))
+    nd = doc["news_desk"]
+    sn = doc["section_name"]
+    return set([t for t in [*ks, 
+            nd if nd and nd != "None" else "", 
+            sn if (not nd or nd == "None") and sn != "Archives" else ""
+    ] if t != ""])
 
 def extractText(doc) -> str:
     headline = doc["headline"]["print_headline"] or doc["headline"]["main"]
