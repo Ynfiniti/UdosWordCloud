@@ -1,6 +1,9 @@
-import time
 import spacy
 from spacy.language import Language
+from transformers import pipeline
+
+classifier = pipeline("zero-shot-classification",
+                    model="facebook/bart-large-mnli")
 
 # Disabling components not needed (optional, but useful if run on a large dataset)
 nlp = spacy.load(
@@ -11,15 +14,28 @@ nlp.enable_pipe("senter")
 nlp.add_pipe("merge_noun_chunks")
 nlp.add_pipe("merge_entities")
 
+allTopics: set[str] = set()
+
+def fillTopics(text):
+    if len(text) == 0 or len(allTopics) == 0:
+        return []
+    res = classifier(text, list(allTopics))
+    return [i for index, i in enumerate(res["labels"]) if res["scores"][index] >= .8]
+
+def addToGlobalTopics(topics: list[str]):
+    for t in topics:
+        allTopics.add(t.lower())
+
 def getTopics(doc):
-    topics: set = {}
     ks = list(map(lambda k: k["value"], doc["keywords"]))
     nd = doc["news_desk"]
     sn = doc["section_name"]
-    return set([t for t in [*ks, 
+    topics = set([t.lower() for t in [*ks, 
             nd if nd and nd != "None" else "", 
             sn if (not nd or nd == "None") and sn != "Archives" else ""
     ] if t != ""])
+
+    return list(topics)
 
 def extractText(doc) -> str:
     headline = doc["headline"]["print_headline"] or doc["headline"]["main"]
@@ -74,16 +90,26 @@ def transferToWordCount(matches, wordCount):
         )
     return wordCount
 
+def test(doc):
+    text = extractText(doc)
+    topics = getTopics(doc)
+
+    addToGlobalTopics(topics)
+    
+    return list(set(topics))
+
 def parseArticle(doc):
     # Count word inside the article
     text = extractText(doc)
     wordCount, matches = countWordsInText(text)
     wordCount = transferToWordCount(matches, wordCount)
     # Create article object with wordCount attached
+    topics = getTopics(doc)
+
     return {
         "href": doc["web_url"],
         "date": doc["pub_date"],
-        "topics": doc["keywords"],
+        "topics": topics,
         "wordCount": wordCount
     }
 
