@@ -1,6 +1,8 @@
 import spacy
 from spacy.language import Language
 from transformers import pipeline
+from multiprocessing.managers import SharedMemoryManager
+import numpy as np
 
 classifier = pipeline("zero-shot-classification",
                     model="facebook/bart-large-mnli")
@@ -14,7 +16,21 @@ nlp.enable_pipe("senter")
 nlp.add_pipe("merge_noun_chunks")
 nlp.add_pipe("merge_entities")
 
+
 allTopics: set[str] = set()
+
+def init(shared_array_base):
+    global shared_array
+    shared_array = np.ctypeslib.as_array(shared_array_base.get_obj())
+    shared_array = shared_array.reshape(10, 10)
+
+# Parallel processing
+def my_func(i):
+    shared_array[i, :] = i
+
+def mult(x):
+    print("lmao this wordking?")
+    return x**2
 
 def fillTopics(text):
     if len(text) == 0 or len(allTopics) == 0:
