@@ -40,6 +40,11 @@ export function createDBCloud(dateMin: string, dateMax: string, forTopic = false
     return forTopic? getTopicAmount(filtered) : getTokenAmount(filtered)
 }
 
+export function createDBTimeline(name: string, forTopic = false){
+    const filtered = data.filter(d => forTopic? d.topics.includes(name) : name in d.wordCount)
+
+}
+
 function getTokenAmount(articles: Array<fileData>){
     // Sum up all amounts for each token
     const amounts: {[key: string]: number} = {}
@@ -80,5 +85,12 @@ function getTopicAmount(articles: Array<fileData>){
     }
 
     return retArr
+}
 
+function getTokenTimeline(articles: Array<fileData>, token: string){
+    const amounts: {[key: string]: { amount: number, hrefs: Array<string> }} = {}
+    articles.forEach(a => {
+
+
+    })
 }
