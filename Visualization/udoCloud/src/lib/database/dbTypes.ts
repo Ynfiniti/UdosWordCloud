@@ -23,8 +23,13 @@ export interface DBCloud{
     amount: number
 }
 
+/**
+ * Object with all dates as keys.
+ * Gathering the amount a token / topic occurred on a day and collect all hrefs as proof
+ */
 export interface DBTimeline{
-    date: string
-    amount: number
-    href: string
+    [key: string]: {
+        amount: number
+        hrefs: Array<string>
+    }
 }

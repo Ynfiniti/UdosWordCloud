@@ -1,4 +1,4 @@
-import type {DBCloud} from "./dbTypes";
+import type {DBCloud, DBTimeline} from "./dbTypes";
 
 let data: Array<fileData> = []
 
@@ -88,19 +88,21 @@ function getTopicAmount(articles: Array<fileData>){
 }
 
 function getTimeline(articles: Array<fileData>){
-    const amounts: {[key: string]: { amount: number, hrefs: Array<string> }} = {}
+    // Count the dates and gather all hrefs from a date
+    const retAmounts: {[key: string]: { amount: number, hrefs: Array<string> }} = {}
     articles.forEach(a => {
-        if(a.date in amounts){
-            amounts[a.date].amount++
-            amounts[a.date].hrefs.push(a.href)
+        if(a.date in retAmounts){
+            retAmounts[a.date].amount++
+            retAmounts[a.date].hrefs.push(a.href)
         }
         else{
-            amounts[a.date] = {
+            retAmounts[a.date] = {
                 amount: 1,
                 hrefs: [a.href]
             }
         }
 
     })
-    return amounts
+
+    return retAmounts
 }
