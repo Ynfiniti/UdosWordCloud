@@ -1,10 +1,11 @@
 <script lang="ts">
       import {createEventDispatcher, onMount} from 'svelte';
       import type {CloudSearchInputs} from "$lib/SearchInput/cloud/cloudSearchInputTypes";
+      import {DATE_MIN} from "$lib/SearchInput/cloud/cloudSearchInputTypes";
 
-      export let initialDateMin = "1852-01"
-      export let initialDateMax = "2001-09"
-      export let initialForTopic = false
+      export let initialDateMin: string = ""
+      export let initialDateMax: string = ""
+      export let initialForTopic: boolean = false
 
       const dispatch = createEventDispatcher();
 
@@ -27,7 +28,7 @@
 </script>
 
 <label for="datemin">start</label>
-<input id="datemin" type="month" min="1852-01" bind:value={searchInputs.dateMin}>
+<input id="datemin" type="month" min="{DATE_MIN}" bind:value={searchInputs.dateMin}>
 
 <label for="datemax">end</label>
 <input id="datemax" type="month" min="{searchInputs.dateMin}" bind:value={searchInputs.dateMax}>
