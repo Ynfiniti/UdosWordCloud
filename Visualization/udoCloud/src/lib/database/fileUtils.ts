@@ -89,7 +89,7 @@ function getTopicAmount(articles: Array<fileData>){
 
 function getTimeline(articles: Array<fileData>){
     // Count the dates and gather all hrefs from a date
-    const retAmounts: {[key: string]: { amount: number, hrefs: Array<string> }} = {}
+    const retAmounts: DBTimeline = {}
     articles.forEach(a => {
         if(a.date in retAmounts){
             retAmounts[a.date].amount++
