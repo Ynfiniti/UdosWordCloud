@@ -70,7 +70,7 @@ function getTokenAmount(articles: Array<fileData>){
         retArr.push({name: token, amount: amounts[token]})
     }
 
-    return retArr
+    return retArr.filter(e => isNaN(parseInt(e.name)))
 }
 
 function getTopicAmount(articles: Array<fileData>){
