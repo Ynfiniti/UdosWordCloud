@@ -1,4 +1,6 @@
 import type {DBCloud, DBTimeline} from "./dbTypes";
+import type {TimelineSearchInputs} from "$lib/SearchInput/timeline/timelineSearchInputTypes";
+import type {CloudSearchInputs} from "$lib/SearchInput/cloud/cloudSearchInputTypes";
 
 let data: Array<fileData> = []
 
@@ -35,13 +37,18 @@ export function getData(){
     return data
 }
 
-export function createDBCloud(dateMin: string, dateMax: string, forTopic = false){
-    const filtered = data.filter(d => d.date >= dateMin && d.date <= dateMax)
-    return forTopic? getTopicAmount(filtered) : getTokenAmount(filtered)
+export function createDBCloud(searchInputs: CloudSearchInputs){
+    const filtered = data.filter(d =>
+      d.date >= searchInputs.dateMin
+      && d.date <= searchInputs.dateMax
+    )
+    return searchInputs.forTopic? getTopicAmount(filtered) : getTokenAmount(filtered)
 }
 
-export function createDBTimeline(name: string, forTopic = false){
-    const filtered = data.filter(d => forTopic? d.topics.includes(name) : name in d.wordCount)
+export function createDBTimeline(searchInput: TimelineSearchInputs){
+    const filtered = data.filter(d =>
+      searchInput.forTopic? d.topics.includes(searchInput.value) : searchInput.value in d.wordCount
+    )
     return getTimeline(filtered)
 }
 
