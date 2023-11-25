@@ -6,7 +6,7 @@ import {createDBTimeline, createDBCloud} from "$lib/database/fileUtils.js"
 
 function createDBStore(){
   const { subscribe, update } = writable({
-   cloud: {} as Array<DBCloud>,
+   cloud: [] as Array<DBCloud>,
    timeline: {} as DBTimeline
   })
 
