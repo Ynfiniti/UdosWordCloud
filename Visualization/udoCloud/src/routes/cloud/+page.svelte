@@ -1,5 +1,4 @@
 <script lang="ts">
-    import '@carbon/charts-svelte/styles.css'
     import type {ChartTabularData} from '@carbon/charts'
     import type {WorldCloudChartOptions} from "@carbon/charts-svelte";
     import {WordCloudChart} from "@carbon/charts-svelte";
@@ -7,7 +6,16 @@
     import type {CloudSearchInputs} from "$lib/SearchInput/cloud/cloudSearchInputTypes";
     import CloudSearchInput from "$lib/SearchInput/cloud/CloudSearchInput.svelte";
     import {dbStore} from "$lib/database/dbStore";
-    import {loadingStore} from "$lib/charts/chartUtils";
+    import {loadingStore, replaceGroupText} from "$lib/charts/chartUtils";
+
+    /**
+     * Check this out
+     * https://www.npmjs.com/package/@carbon/charts-svelte#event-listeners
+     */
+
+    /**
+     * TODO go to timeline of word when cloud element is clicked
+     */
 
     type WordCloudProps = {
         data: ChartTabularData,
@@ -22,13 +30,13 @@
             legend: {enabled: false},
             tooltip: {
                 enabled: true,
-                customHTML: (data, defaultHTML) => {
-                    return defaultHTML.replace("Group", "Click to view Timeline")
+                customHTML: (_, defaultHTML) => {
+                    return defaultHTML.replace(replaceGroupText, "Click to view Timeline")
                 }
             },
             data:{
                 loading: false
-            }
+            },
         },
         data: [] as ChartTabularData
     }

@@ -18,7 +18,7 @@
  * GROUP BY token.name;
  */
 
-export interface DBCloud{
+export interface DBCloudElement {
     word: string
     value: number
 }
@@ -27,9 +27,8 @@ export interface DBCloud{
  * Object with all dates as keys.
  * Gathering the amount a token / topic occurred on a day and collect all hrefs as proof
  */
-export interface DBTimeline{
-    [key: string]: {
-        amount: number
-        hrefs: Array<string>
-    }
+export interface DBTimelineElement {
+    date: string
+    amount: number
+    hrefs: Array<{ link: string, amount: number }>
 }

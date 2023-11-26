@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import {init, createDBTimeline} from "$lib/database/fileUtils.js"
+  import '@carbon/charts-svelte/styles.css'
+  import {onMount} from 'svelte';
+  import {init} from "$lib/database/fileUtils.js"
 
-    onMount(async () => {
+  onMount(async () => {
         init().then((res) => console.log("Files loaded: ", res))
     });
 
