@@ -14,7 +14,8 @@
      */
 
     /**
-     * TODO go to timeline of word when cloud element is clicked
+     * TODO go to timeline of word when cloud element is
+     * Update chart properly
      */
 
     type WordCloudProps = {

@@ -21,6 +21,7 @@
   /**
    * TODO list of hrefs for selected day.
    * Select via onclick??
+   * Update chart properly
    */
 
   loadingStore.set(true)
