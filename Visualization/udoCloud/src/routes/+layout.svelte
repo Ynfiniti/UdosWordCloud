@@ -3,11 +3,7 @@
     import {init, createDBTimeline} from "$lib/database/fileUtils.js"
 
     onMount(async () => {
-        await init()
-        const tokens = createDBTimeline("blames", false)
-        const topics = createDBTimeline("united states", true)
-        console.log(tokens)
-        console.log(topics)
+        init().then((res) => console.log("Files loaded: ", res))
     });
 
 

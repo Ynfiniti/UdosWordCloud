@@ -19,8 +19,8 @@
  */
 
 export interface DBCloud{
-    name: string
-    amount: number
+    word: string
+    value: number
 }
 
 /**

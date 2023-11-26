@@ -30,7 +30,15 @@ async function fetchAll(){
 }
 
 export async function init() {
-    data = await fetchAll()
+    let ret = true
+    try {
+        data = await fetchAll()
+    }
+    catch(e){
+        console.log((e as Error).message)
+        ret = false
+    }
+    return ret
 }
 
 export function getData(){
@@ -42,6 +50,7 @@ export function createDBCloud(searchInputs: CloudSearchInputs){
       d.date >= searchInputs.dateMin
       && d.date <= searchInputs.dateMax
     )
+
     return searchInputs.forTopic? getTopicAmount(filtered) : getTokenAmount(filtered)
 }
 
@@ -67,10 +76,10 @@ function getTokenAmount(articles: Array<fileData>){
     // Parse to DBCloud array
     const retArr: Array<DBCloud> = []
     for(const token in amounts){
-        retArr.push({name: token, amount: amounts[token]})
+        retArr.push({word: token, value: amounts[token]})
     }
 
-    return retArr.filter(e => isNaN(parseInt(e.name)))
+    return retArr.filter(e => isNaN(parseInt(e.word)) && e.word.trim() !== "")
 }
 
 function getTopicAmount(articles: Array<fileData>){
@@ -88,7 +97,7 @@ function getTopicAmount(articles: Array<fileData>){
     // Parse to DBCloud array
     const retArr: Array<DBCloud> = []
     for(const token in amounts){
-        retArr.push({name: token, amount: amounts[token]})
+        retArr.push({word: token, value: amounts[token]})
     }
 
     return retArr
