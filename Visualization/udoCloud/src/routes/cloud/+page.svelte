@@ -8,6 +8,7 @@
   import CloudSearchInput from "$lib/charts/cloud/CloudSearchInput.svelte";
   import {dbStore} from "$lib/database/dbStore";
   import {loadingStore, replaceGroupText} from "$lib/charts/chartUtils";
+  import type {DBCloudElement} from "$lib/database/dbTypes";
 
   /**
    * Inits for SearchInput
@@ -60,7 +61,13 @@
   // Gets executed everytime dbStore and loadingStore change
   $:{
     const limit = $dbStore.cloud.length >= 50 ? 50 : $dbStore.cloud.length
-    const newData = $dbStore.cloud.toSorted((a, b) => b.value - a.value).splice(0, limit) as ChartTabularData
+    let newData: ChartTabularData
+    try{
+      newData = $dbStore.cloud.toSorted((a, b) => b.value - a.value).splice(0, limit) as ChartTabularData
+    }
+    catch(e){
+      newData = []
+    }
     wordCloudData.data = newData.map(d => {
         d["group"] = Math.random() * 5;
         return d

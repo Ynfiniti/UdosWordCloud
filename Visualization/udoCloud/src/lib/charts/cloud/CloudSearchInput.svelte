@@ -1,7 +1,7 @@
 <script lang="ts">
       import {createEventDispatcher, onMount} from 'svelte';
-      import type {CloudSearchInputs} from "$lib/charts/cloud/cloudSearchInputTypes";
-      import {DATE_MIN} from "$lib/charts/cloud/cloudSearchInputTypes";
+      import type {CloudSearchInputs} from "$lib/charts/cloud/cloudTypes";
+      import {DATE_MIN} from "$lib/charts/cloud/cloudTypes";
 
       export let initialDateMin: string = ""
       export let initialDateMax: string = ""

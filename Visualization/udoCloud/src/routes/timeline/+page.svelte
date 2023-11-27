@@ -87,7 +87,6 @@
   $: {
     selectedHrefs = []
     lineCharData.data = $dbStore.timeline.map(d => {
-      d.data = d.data as ChartTabularData
       d.data.map(e => {
         e["group"] = `${d.label}, ${d.forTopic}`
         return e
