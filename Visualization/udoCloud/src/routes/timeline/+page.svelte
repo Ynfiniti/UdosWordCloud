@@ -2,10 +2,11 @@
   import {page} from '$app/stores';
   import {onMount} from "svelte";
   import type {ScaleTypes} from "@carbon/charts-svelte";
-  import {LineChart} from "@carbon/charts-svelte";
+  import {Alignments, LineChart} from "@carbon/charts-svelte";
   import type {LineChartEvent, LineChartProps, TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
   import type {ChartTabularData, LineChart as LineChartCore} from "@carbon/charts";
-  import {loadingStore, removeGroupLI} from "$lib/charts/chartUtils";
+  import {ZoomBarTypes} from "@carbon/charts";
+  import {loadingStore} from "$lib/charts/chartUtils";
   import {dbStore} from "$lib/database/dbStore";
   import TimelineHrefList from "$lib/charts/timeline/TimelineHrefList.svelte";
   import type {Href} from "$lib/database/dbTypes";
@@ -33,11 +34,17 @@
   const lineCharData: LineChartProps = {
     options: {
       animations: true,
-      legend: {enabled: true},
-      tooltip: {
+      legend: {
         enabled: true,
-        customHTML: (_, defaultHTML) => {
-          return defaultHTML.replace(removeGroupLI, "")
+        alignment: Alignments.CENTER
+      },
+      tooltip: {
+        enabled: true
+      },
+      zoomBar: {
+        top: {
+          enabled: true,
+          type: ZoomBarTypes.SLIDER_VIEW
         }
       },
       data: {
@@ -53,11 +60,6 @@
           mapsTo: "amount",
           title: "Occurrences",
           scaleType: "linear" as ScaleTypes
-        }
-      },
-      zoomBar: {
-        top: {
-          enabled: true
         }
       },
       height: "400px"
