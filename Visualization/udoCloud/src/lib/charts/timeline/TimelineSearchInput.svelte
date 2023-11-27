@@ -1,19 +1,11 @@
 <script lang="ts">
-  import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
-
-  export let initialValue: string = ""
-    export let initialForTopic: boolean = false
-
-
-    let searchInputs: TimelineSearchInputs = {
-        value: initialValue,
-        forTopic: initialForTopic
-    }
+  export let value: string = ""
+  export let forTopic: boolean = false
 
 </script>
 
 <label for="value">searchstring</label>
-<input id="value" type="search" bind:value={searchInputs.value}>
+<input id="value" type="search" bind:value={value}>
 
 <label for="forTopic">Search for topics</label>
-<input id="forTopic" type="checkbox" bind:checked={searchInputs.forTopic}>
+<input id="forTopic" type="checkbox" bind:checked={forTopic}>

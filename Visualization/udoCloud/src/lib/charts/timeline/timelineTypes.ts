@@ -1,6 +1,6 @@
 import type {ChartTabularData} from "@carbon/charts";
 import type {LineChartOptions} from "@carbon/charts-svelte";
-import type {DBTimelineElement} from "$lib/database/dbTypes";
+import type {DBTimelineDataElement} from "$lib/database/dbTypes";
 
 export type LineChartProps = {
   data: ChartTabularData,
@@ -8,7 +8,7 @@ export type LineChartProps = {
 }
 
 export type LineChartEvent = {
-  datum: DBTimelineElement,
+  datum: DBTimelineDataElement,
   element: Selection,
   event: PointerEvent
 }

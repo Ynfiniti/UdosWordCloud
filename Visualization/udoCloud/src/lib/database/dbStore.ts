@@ -10,12 +10,18 @@ function createDBStore() {
     timeline: [] as Array<DBTimelineElement>
   })
 
-  const loadNewData = (searchInput: CloudSearchInputs | TimelineSearchInputs, fromTimeline = false) => {
+  const loadNewData = (searchInput: CloudSearchInputs | Array<TimelineSearchInputs>, fromTimeline = false) => {
     if (fromTimeline) {
       update((d) => {
+        searchInput = searchInput as Array<TimelineSearchInputs>
+        const timelineArr = searchInput.map(si => ({
+          data: createDBTimeline(si),
+          label: si.value,
+          forTopic: si.forTopic
+        }))
         return {
           cloud: d.cloud,
-          timeline: createDBTimeline(searchInput as TimelineSearchInputs)
+          timeline: timelineArr
         }
       })
     } else {

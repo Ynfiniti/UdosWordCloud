@@ -4,12 +4,12 @@
   import type {ScaleTypes} from "@carbon/charts-svelte";
   import {LineChart} from "@carbon/charts-svelte";
   import type {LineChartEvent, LineChartProps, TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
-  import TimelineSearchInput from "$lib/charts/timeline/TimelineSearchInput.svelte";
   import type {ChartTabularData, LineChart as LineChartCore} from "@carbon/charts";
   import {loadingStore, removeGroupLI} from "$lib/charts/chartUtils";
   import {dbStore} from "$lib/database/dbStore";
   import TimelineHrefList from "$lib/charts/timeline/TimelineHrefList.svelte";
   import type {Href} from "$lib/database/dbTypes";
+  import TimelineSearchMultiple from "$lib/charts/timeline/TimelineSearchMultiple.svelte";
 
   /**
    * Inits for SearchInput
@@ -19,7 +19,7 @@
     initialForTopic: $page.url.searchParams.get('forTopic') === "true"
   }
 
-  function searchInputSubmit(e: CustomEvent<TimelineSearchInputs>) {
+  function searchInputSubmit(e: CustomEvent<Array<TimelineSearchInputs>>) {
     loadingStore.set(true)
     dbStore.loadNewData(e.detail, true)
   }
@@ -33,7 +33,7 @@
   const lineCharData: LineChartProps = {
     options: {
       animations: true,
-      legend: {enabled: false},
+      legend: {enabled: true},
       tooltip: {
         enabled: true,
         customHTML: (_, defaultHTML) => {
@@ -86,12 +86,20 @@
   // Gets executed every time dbStore and loadingStore change
   $: {
     selectedHrefs = []
-    lineCharData.data = $dbStore.timeline
+    lineCharData.data = $dbStore.timeline.map(d => {
+      d.data = d.data as ChartTabularData
+      d.data.map(e => {
+        e["group"] = `${d.label}, ${d.forTopic}`
+        return e
+      })
+      return d.data
+    }).flat()
+    console.log("Result: ", $dbStore.timeline, lineCharData.data)
     lineCharData.options!.data!.loading = $loadingStore
   }
 </script>
 
-<TimelineSearchInput {...initialSearch} on:submit={searchInputSubmit}></TimelineSearchInput>
+<TimelineSearchMultiple {...initialSearch} on:submit={searchInputSubmit}></TimelineSearchMultiple>
 
 <LineChart bind:chart {...lineCharData}/>
 

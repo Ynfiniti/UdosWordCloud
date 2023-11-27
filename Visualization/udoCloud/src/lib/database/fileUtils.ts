@@ -1,6 +1,6 @@
-import type {DBCloudElement, DBTimelineElement} from "./dbTypes";
+import type {DBCloudElement, DBTimelineDataElement} from "./dbTypes";
 import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
-import type {CloudSearchInputs} from "$lib/charts/cloud/cloudSearchInputTypes";
+import type {CloudSearchInputs} from "$lib/charts/cloud/cloudTypes";
 
 let data: Array<FileData> = []
 
@@ -121,7 +121,7 @@ function getTimeline(searchString: string, articles: Array<FileData>, forTopic: 
     }
   })
 
-  const retArray: Array<DBTimelineElement> = []
+  const retArray: Array<DBTimelineDataElement> = []
   for (const date in amounts) {
     retArray.push({date, amount: amounts[date].amount, hrefs: amounts[date].hrefs})
   }

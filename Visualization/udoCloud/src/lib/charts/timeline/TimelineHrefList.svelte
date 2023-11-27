@@ -1,9 +1,9 @@
 <script lang="ts">
     import type {Href} from "$lib/database/dbTypes";
 
-    export let initialHrefs!: Array<Href>
+    export let initialHrefs: Array<Href> = []
 
-    $: hrefs = initialHrefs.toSorted((a, b) => b.amount-a.amount)
+    $: hrefs = initialHrefs?.toSorted((a, b) => b.amount-a.amount)
 </script>
 
 <h1>Href list</h1>
