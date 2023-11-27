@@ -12,3 +12,8 @@ export type LineChartEvent = {
   element: Selection,
   event: PointerEvent
 }
+
+export interface TimelineSearchInputs{
+  value: string
+  forTopic: boolean
+}

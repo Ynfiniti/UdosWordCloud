@@ -1,7 +1,7 @@
 import {writable} from "svelte/store";
 import type {DBCloudElement, DBTimelineElement} from "$lib/database/dbTypes";
-import type {CloudSearchInputs} from "$lib/charts/cloud/cloudSearchInputTypes";
-import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineSearchInputTypes";
+import type {CloudSearchInputs} from "$lib/charts/cloud/cloudTypes";
+import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
 import {createDBCloud, createDBTimeline} from "$lib/database/fileUtils.js"
 
 function createDBStore() {

@@ -4,10 +4,9 @@
   import {onMount} from "svelte";
   import type {ChartTabularData, WordCloudChart as WordCloudChartCore} from '@carbon/charts'
   import {WordCloudChart} from "@carbon/charts-svelte";
-  import type {CloudSearchInputs} from "$lib/charts/cloud/cloudSearchInputTypes";
+  import type {CloudSearchInputs, WordCloudEvent, WordCloudProps} from "$lib/charts/cloud/cloudTypes";
   import CloudSearchInput from "$lib/charts/cloud/CloudSearchInput.svelte";
   import {dbStore} from "$lib/database/dbStore";
-  import type {WordCloudEvent, WordCloudProps} from "$lib/charts/cloud/cloudTypes";
   import {loadingStore, replaceGroupText} from "$lib/charts/chartUtils";
 
   /**

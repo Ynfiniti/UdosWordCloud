@@ -3,10 +3,9 @@
   import {onMount} from "svelte";
   import type {ScaleTypes} from "@carbon/charts-svelte";
   import {LineChart} from "@carbon/charts-svelte";
-  import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineSearchInputTypes";
+  import type {LineChartEvent, LineChartProps, TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
   import TimelineSearchInput from "$lib/charts/timeline/TimelineSearchInput.svelte";
   import type {ChartTabularData, LineChart as LineChartCore} from "@carbon/charts";
-  import type {LineChartEvent, LineChartProps} from "$lib/charts/timeline/tielineTypes";
   import {loadingStore, removeGroupLI} from "$lib/charts/chartUtils";
   import {dbStore} from "$lib/database/dbStore";
   import TimelineHrefList from "$lib/charts/timeline/TimelineHrefList.svelte";
@@ -86,6 +85,7 @@
 
   // Gets executed every time dbStore and loadingStore change
   $: {
+    selectedHrefs = []
     lineCharData.data = $dbStore.timeline
     lineCharData.options!.data!.loading = $loadingStore
   }

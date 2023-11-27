@@ -1,5 +1,5 @@
 import type {DBCloudElement, DBTimelineElement} from "./dbTypes";
-import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineSearchInputTypes";
+import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
 import type {CloudSearchInputs} from "$lib/charts/cloud/cloudSearchInputTypes";
 
 let data: Array<FileData> = []

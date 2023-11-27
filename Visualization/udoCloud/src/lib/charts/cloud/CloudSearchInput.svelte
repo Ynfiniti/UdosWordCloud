@@ -31,6 +31,7 @@
 <label for="datemax">end</label>
 <input id="datemax" type="month" min="{searchInputs.dateMin}" bind:value={searchInputs.dateMax}>
 
+<label for="forTopic">Search for topics</label>
 <input id="forTopic" type="checkbox" bind:checked={searchInputs.forTopic}>
 
 <button on:click={submit}>Submit</button>

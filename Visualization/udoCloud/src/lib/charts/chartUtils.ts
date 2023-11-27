@@ -1,7 +1,4 @@
 import {writable} from "svelte/store";
-import type {DBTimelineElement} from "$lib/database/dbTypes";
-import type {ChartTabularData} from "@carbon/charts";
-import type {LineChartOptions, WorldCloudChartOptions} from "@carbon/charts-svelte";
 
 function createLoadingStore(){
     const { subscribe, set } = writable(false)
