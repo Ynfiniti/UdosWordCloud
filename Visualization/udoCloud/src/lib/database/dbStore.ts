@@ -1,7 +1,7 @@
 import {writable} from "svelte/store";
 import type {DBCloudElement, DBTimelineElement} from "$lib/database/dbTypes";
-import type {CloudSearchInputs} from "$lib/SearchInput/cloud/cloudSearchInputTypes";
-import type {TimelineSearchInputs} from "$lib/SearchInput/timeline/timelineSearchInputTypes";
+import type {CloudSearchInputs} from "$lib/charts/cloud/cloudSearchInputTypes";
+import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineSearchInputTypes";
 import {createDBCloud, createDBTimeline} from "$lib/database/fileUtils.js"
 
 function createDBStore() {
@@ -12,7 +12,6 @@ function createDBStore() {
 
   const loadNewData = (searchInput: CloudSearchInputs | TimelineSearchInputs, fromTimeline = false) => {
     if (fromTimeline) {
-      console.log("This should be it", createDBTimeline(searchInput as TimelineSearchInputs))
       update((d) => {
         return {
           cloud: d.cloud,
@@ -20,7 +19,6 @@ function createDBStore() {
         }
       })
     } else {
-      console.log("Should be new data?: ", createDBCloud(searchInput as CloudSearchInputs),)
       update(d => {
         return {
           cloud: createDBCloud(searchInput as CloudSearchInputs),

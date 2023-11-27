@@ -28,7 +28,12 @@ export interface DBCloudElement {
  * Gathering the amount a token / topic occurred on a day and collect all hrefs as proof
  */
 export interface DBTimelineElement {
-    date: string
+    date: string | Date
     amount: number
-    hrefs: Array<{ link: string, amount: number }>
+    hrefs: Array<Href>
+}
+
+export interface Href{
+    link: string,
+    amount: number
 }

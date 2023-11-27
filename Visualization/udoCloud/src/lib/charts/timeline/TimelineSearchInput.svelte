@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher, onMount } from 'svelte';
-    import type { TimelineSearchInputs } from "$lib/SearchInput/timeline/timelineSearchInputTypes";
+    import type { TimelineSearchInputs } from "$lib/charts/timeline/timelineSearchInputTypes";
 
     export let initialValue: string = ""
     export let initialForTopic: boolean = false
@@ -16,10 +16,6 @@
         value: initialValue,
         forTopic: initialForTopic
     }
-
-    console.log(initialValue, initialForTopic)
-
-    $: console.log("from Input", searchInputs)
 
     function submit(){
         dispatch("submit", searchInputs)

@@ -1,36 +1,24 @@
 <script lang="ts">
   import {page} from '$app/stores';
-  import type {TimelineSearchInputs} from "$lib/SearchInput/timeline/timelineSearchInputTypes";
-  import TimelineSearchInput from "$lib/SearchInput/timeline/TimelineSearchInput.svelte";
-  import type {LineChartOptions, ScaleTypes} from "@carbon/charts-svelte";
+  import {onMount} from "svelte";
+  import type {ScaleTypes} from "@carbon/charts-svelte";
   import {LineChart} from "@carbon/charts-svelte";
-  import type {ChartTabularData} from "@carbon/charts";
+  import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineSearchInputTypes";
+  import TimelineSearchInput from "$lib/charts/timeline/TimelineSearchInput.svelte";
+  import type {ChartTabularData, LineChart as LineChartCore} from "@carbon/charts";
+  import type {LineChartEvent, LineChartProps} from "$lib/charts/timeline/tielineTypes";
   import {loadingStore, removeGroupLI} from "$lib/charts/chartUtils";
   import {dbStore} from "$lib/database/dbStore";
+  import TimelineHrefList from "$lib/charts/timeline/TimelineHrefList.svelte";
+  import type {Href} from "$lib/database/dbTypes";
 
-  type LineChartProps = {
-    data: ChartTabularData,
-    options: LineChartOptions
-  }
-
-  const initialSearch = {
-    initialValue: $page.url.searchParams.get('value') || "",
-    initialForTopic: $page.url.searchParams.get('forTopic') === "true"
-  }
+  let chart!: LineChartCore
 
   /**
    * TODO list of hrefs for selected day.
    * Select via onclick??
    * Update chart properly
    */
-
-  loadingStore.set(true)
-
-  dbStore.subscribe(({timeline}) => {
-    console.log("This should update", timeline)
-    loadingStore.set(false)
-  })
-
   const lineCharData: LineChartProps = {
     options: {
       animations: true,
@@ -55,29 +43,51 @@
           title: "Occurrences",
           scaleType: "linear" as ScaleTypes
         }
-      }
+      },
+      zoomBar: {
+        top: {
+          enabled: true
+        }
+      },
+      height: "400px"
     },
     data: [] as ChartTabularData
   }
 
+  const initialSearch = {
+    initialValue: $page.url.searchParams.get('value') || "",
+    initialForTopic: $page.url.searchParams.get('forTopic') === "true"
+  }
+
+  let selectedHrefs: Array<Href> = []
+
+  onMount(async () => {
+    loadingStore.set(true)
+
+    chart.services.events.addEventListener("scatter-click", (e: CustomEvent<LineChartEvent>) => {
+      console.log(e.detail.datum)
+      selectedHrefs = e.detail.datum.hrefs
+    })
+  });
+
+  dbStore.subscribe(() => {
+    loadingStore.set(false)
+  })
+
+  // Gets executed every time dbStore and loadingStore change
   $: {
     lineCharData.data = $dbStore.timeline
     lineCharData.options!.data!.loading = $loadingStore
-    console.log("Set new timelineData", lineCharData.data)
   }
 
-  console.log(initialSearch)
-
-  function searchInputSubmit(e
-                               :
-                               CustomEvent<TimelineSearchInputs>
-  ) {
+  function searchInputSubmit(e: CustomEvent<TimelineSearchInputs>) {
     loadingStore.set(true)
-    console.log("Submitted lmao", e.detail)
     dbStore.loadNewData(e.detail, true)
   }
 </script>
 
 <TimelineSearchInput {...initialSearch} on:submit={searchInputSubmit}></TimelineSearchInput>
 
-<LineChart {...lineCharData}/>
+<LineChart bind:chart {...lineCharData}/>
+
+<TimelineHrefList bind:initialHrefs={selectedHrefs}></TimelineHrefList>

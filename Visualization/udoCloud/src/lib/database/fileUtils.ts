@@ -1,6 +1,6 @@
 import type {DBCloudElement, DBTimelineElement} from "./dbTypes";
-import type {TimelineSearchInputs} from "$lib/SearchInput/timeline/timelineSearchInputTypes";
-import type {CloudSearchInputs} from "$lib/SearchInput/cloud/cloudSearchInputTypes";
+import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineSearchInputTypes";
+import type {CloudSearchInputs} from "$lib/charts/cloud/cloudSearchInputTypes";
 
 let data: Array<FileData> = []
 
@@ -60,7 +60,6 @@ export function createDBTimeline(searchInput: TimelineSearchInputs) {
       d.topics.includes(searchInput.value)
       : searchInput.value in d.wordCount
   )
-  console.log("Filtered", filtered, data)
   return getTimeline(searchInput.value, filtered, searchInput.forTopic)
 }
 
