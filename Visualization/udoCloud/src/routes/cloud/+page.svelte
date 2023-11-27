@@ -10,6 +10,24 @@
   import type {WordCloudEvent, WordCloudProps} from "$lib/charts/cloud/cloudTypes";
   import {loadingStore, replaceGroupText} from "$lib/charts/chartUtils";
 
+  /**
+   * Inits for SearchInput
+   */
+  let initialValues = {
+    initialDateMin: $page.url.searchParams.get('dateMin') || "1852-01",
+    initialDateMax: $page.url.searchParams.get('dateMax') || "2001-09",
+    initialForTopic: $page.url.searchParams.get('forTopic') == "false",
+  }
+
+  function searchInputSubmit(e: CustomEvent<CloudSearchInputs>) {
+    loadingStore.set(true)
+    dbStore.loadNewData(e.detail, false)
+  }
+
+  /**
+   * Inits for chart
+   */
+
   let chart!: WordCloudChartCore;
 
   const wordCloudData: WordCloudProps = {
@@ -27,12 +45,6 @@
       },
     },
     data: [] as ChartTabularData
-  }
-
-  let initialValues = {
-    initialDateMin: $page.url.searchParams.get('dateMin') || "1852-01",
-    initialDateMax: $page.url.searchParams.get('dateMax') || "2001-09",
-    initialForTopic: $page.url.searchParams.get('forTopic') == "false",
   }
 
   onMount(async () => {
@@ -57,12 +69,6 @@
     )
     wordCloudData.options!.data!.loading = $loadingStore
   }
-
-  function searchInputSubmit(e: CustomEvent<CloudSearchInputs>) {
-    loadingStore.set(true)
-    dbStore.loadNewData(e.detail, false)
-  }
-
 </script>
 
 <CloudSearchInput {...initialValues} on:submit={searchInputSubmit}></CloudSearchInput>

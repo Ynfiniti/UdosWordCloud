@@ -12,13 +12,25 @@
   import TimelineHrefList from "$lib/charts/timeline/TimelineHrefList.svelte";
   import type {Href} from "$lib/database/dbTypes";
 
-  let chart!: LineChartCore
+  /**
+   * Inits for SearchInput
+   */
+  const initialSearch = {
+    initialValue: $page.url.searchParams.get('value') || "",
+    initialForTopic: $page.url.searchParams.get('forTopic') === "true"
+  }
+
+  function searchInputSubmit(e: CustomEvent<TimelineSearchInputs>) {
+    loadingStore.set(true)
+    dbStore.loadNewData(e.detail, true)
+  }
 
   /**
-   * TODO list of hrefs for selected day.
-   * Select via onclick??
-   * Update chart properly
+   * Inits for chart
    */
+
+  let chart!: LineChartCore
+
   const lineCharData: LineChartProps = {
     options: {
       animations: true,
@@ -54,11 +66,9 @@
     data: [] as ChartTabularData
   }
 
-  const initialSearch = {
-    initialValue: $page.url.searchParams.get('value') || "",
-    initialForTopic: $page.url.searchParams.get('forTopic') === "true"
-  }
-
+  /**
+   * Init for href list
+   */
   let selectedHrefs: Array<Href> = []
 
   onMount(async () => {
@@ -78,11 +88,6 @@
   $: {
     lineCharData.data = $dbStore.timeline
     lineCharData.options!.data!.loading = $loadingStore
-  }
-
-  function searchInputSubmit(e: CustomEvent<TimelineSearchInputs>) {
-    loadingStore.set(true)
-    dbStore.loadNewData(e.detail, true)
   }
 </script>
 
