@@ -11,6 +11,11 @@ function createDBStore() {
   })
 
   const loadNewData = (searchInput: CloudSearchInputs | Array<TimelineSearchInputs>, fromTimeline = false) => {
+    /**
+     * TODO implement server api with database connection (or for now the filesUtils)
+     * https://kit.svelte.dev/docs/server-only-modules#your-modules
+     * https://joyofcode.xyz/sveltekit-loading-data#api-endpoints
+     */
     if (fromTimeline) {
       update((d) => {
         searchInput = searchInput as Array<TimelineSearchInputs>
