@@ -5,9 +5,11 @@
 
   onMount(async () => {
     loadingStore.set(true)
-    fetch("api/init").then((res) => {
-      console.log("Files loaded: ", res)
-      loadingStore.set(false)
+    fetch("api/data").then((res) => {
+      res.json().then(j => {
+        console.log("Files loaded: ", j)
+        loadingStore.set(false)
+      })
     })
   });
 

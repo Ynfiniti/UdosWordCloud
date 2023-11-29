@@ -23,7 +23,6 @@ async function fetchAll() {
   const rets: Array<Array<FileData>> = []
   for (const key in resultFiles) {
     const res = await resultFiles[key]()
-    console.log(res)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     rets.push(res.default)
@@ -35,15 +34,13 @@ async function fetchAll() {
   })
 }
 
-export async function init() {
-  let ret = true
+async function init() {
+  console.log("Initialize resultFiles")
   try {
     data = await fetchAll()
   } catch (e) {
     console.log((e as Error).message)
-    ret = false
   }
-  return ret
 }
 
 export function getData() {
@@ -140,3 +137,5 @@ function getOccurrence(array: Array<string>, value: string) {
   array.forEach((v) => (v === value && count++));
   return count;
 }
+
+init()
