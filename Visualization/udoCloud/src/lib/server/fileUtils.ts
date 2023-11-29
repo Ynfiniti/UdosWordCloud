@@ -1,6 +1,8 @@
-import type {DBCloudElement, DBTimelineDataElement} from "./dbTypes";
+import type {DBCloudElement, DBTimelineDataElement} from "../database/dbTypes";
 import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
 import type {CloudSearchInputs} from "$lib/charts/cloud/cloudTypes";
+
+const resultFiles = import.meta.glob("../../../static/resultfiles/*.json");
 
 let data: Array<FileData> = []
 
@@ -19,10 +21,14 @@ export class FileData {
 
 async function fetchAll() {
   const rets: Array<Array<FileData>> = []
-  for (let i = 1; i < 13; i++) {
-    const res = await fetch(`/resultfiles/result_1963_${i}.json`)
-    rets.push(await res.json() as Array<FileData>)
+  for (const key in resultFiles) {
+    const res = await resultFiles[key]()
+    console.log(res)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    rets.push(res.default)
   }
+
   return rets.flat().map(d => {
     d.date = d.date.split("T")[0]
     return Object.assign(new FileData(), d)

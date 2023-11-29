@@ -1,12 +1,11 @@
 <script lang="ts">
   import '@carbon/charts-svelte/styles.css'
   import {onMount} from 'svelte';
-  import {init} from "$lib/database/fileUtils.js"
   import {loadingStore} from "$lib/charts/chartUtils";
 
   onMount(async () => {
     loadingStore.set(true)
-    init().then((res) => {
+    fetch("api/init").then((res) => {
       console.log("Files loaded: ", res)
       loadingStore.set(false)
     })
