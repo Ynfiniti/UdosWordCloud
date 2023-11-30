@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {createEventDispatcher} from "svelte";
+  import {createEventDispatcher, onMount} from "svelte";
   import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
   import TimelineSearchInput from "$lib/charts/timeline/TimelineSearchInput.svelte";
 
@@ -12,6 +12,11 @@
       value: initialValue,
       forTopic: initialForTopic
     }]
+
+    onMount(async () => {
+      if (initialValue)
+        submit()
+    })
 
     function add(){
       searchInputs = [...searchInputs, {value: "", forTopic: false}]
