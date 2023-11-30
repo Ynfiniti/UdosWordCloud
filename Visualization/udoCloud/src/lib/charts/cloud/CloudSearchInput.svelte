@@ -15,6 +15,7 @@
       })
 
       let searchInputs: CloudSearchInputs = {
+      export let searchInputs: CloudSearchInputs = {
         dateMin: initialDateMin,
         dateMax: initialDateMax,
         forTopic: initialForTopic

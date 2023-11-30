@@ -18,6 +18,8 @@
     initialForTopic: $page.url.searchParams.get('forTopic') == "false",
   }
 
+  let searchInputs: CloudSearchInputs
+
   function searchInputSubmit(e: CustomEvent<CloudSearchInputs>) {
     loadingStore.set(true)
     dbStore.loadNewData(e.detail, false)
@@ -49,7 +51,7 @@
   onMount(async () => {
     loadingStore.set(true)
     chart.services.events.addEventListener("wordcloud-word-click", (e: CustomEvent<WordCloudEvent>) => {
-      goto(`/timeline?value=${e.detail.datum.text}&forTopic=false`)
+      goto(`/timeline?value=${e.detail.datum.text}&forTopic=${searchInputs.forTopic}`)
     })
   });
 
@@ -76,6 +78,6 @@
   }
 </script>
 
-<CloudSearchInput {...initialValues} on:submit={searchInputSubmit}></CloudSearchInput>
+<CloudSearchInput {...initialValues} bind:searchInputs on:submit={searchInputSubmit}></CloudSearchInput>
 
 <WordCloudChart bind:chart {...wordCloudData}></WordCloudChart>
