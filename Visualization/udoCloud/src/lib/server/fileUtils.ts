@@ -19,25 +19,21 @@ export class FileData {
   wordCount!: WordCount
 }
 
-async function fetchAll() {
-  const rets: Array<Array<FileData>> = []
-  for (const key in resultFiles) {
-    const res = await resultFiles[key]()
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    rets.push(res.default)
-  }
-
-  return rets.flat().map(d => {
-    d.date = d.date.split("T")[0]
-    return Object.assign(new FileData(), d)
-  })
-}
-
-async function init() {
+function init() {
   console.log("Initialize resultFiles")
   try {
-    data = await fetchAll()
+    data = []
+    for (const key in resultFiles) {
+      resultFiles[key]().then(res => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const mapped = res.default.map(a => {
+          a.date = a.date.split("T")[0]
+          return Object.assign(new FileData(), a)
+        })
+        data.push(...mapped)
+      })
+    }
   } catch (e) {
     console.log((e as Error).message)
   }
