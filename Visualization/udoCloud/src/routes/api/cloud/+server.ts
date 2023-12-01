@@ -11,8 +11,15 @@ export async function GET(event: RequestEvent) {
   const forTopic: boolean = event.url.searchParams.get("forTopic") === "true"
 
   console.log("for Cloud: ", dateMax, dateMin, forTopic)
-  getCloud().then(res => {
-    console.log(res)
+  getCloud({dateMax: "1963-12-31", dateMin: "1963-05-01", forTopic: false}).then(({result, error}) => {
+    console.log("From cloud, false")
+    console.log(result)
+    if(error) console.error(error.sqlMessage)
+  })
+  getCloud({dateMax: "1963-12-31", dateMin: "1963-05-01", forTopic: true}).then(({result, error}) => {
+    console.log("From cloud, true")
+    console.log(result)
+    if(error) console.error(error.sqlMessage)
   })
   const ret = createDBCloud({dateMax, dateMin, forTopic})
 
