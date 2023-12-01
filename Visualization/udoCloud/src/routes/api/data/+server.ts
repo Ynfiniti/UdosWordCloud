@@ -4,7 +4,7 @@ import {getData} from "$lib/server/fileUtils.js"
 // /api/newsletter GET
 
 export async function GET() {
-  const ret = getData()
+    const ret = getData()
 
-  return json(ret)
+    return json(ret)
 }

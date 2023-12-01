@@ -39,7 +39,7 @@ export interface DBTimelineDataElement {
     hrefs: Array<Href>
 }
 
-export interface Href{
+export interface Href {
     link: string,
     amount: number
 }

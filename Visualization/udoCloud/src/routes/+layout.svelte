@@ -1,17 +1,17 @@
 <script lang="ts">
-  import '@carbon/charts-svelte/styles.css'
-  import {onMount} from 'svelte';
-  import {loadingStore} from "$lib/charts/chartUtils";
+    import '@carbon/charts-svelte/styles.css'
+    import {onMount} from 'svelte';
+    import {loadingStore} from "$lib/charts/chartUtils";
 
-  onMount(async () => {
-    loadingStore.set(true)
-    fetch("api/data").then((res) => {
-      res.json().then(j => {
-        console.log("Files loaded: ", j)
-        loadingStore.set(false)
-      })
-    })
-  });
+    onMount(async () => {
+        loadingStore.set(true)
+        fetch("api/data").then((res) => {
+            res.json().then(j => {
+                console.log("Files loaded: ", j)
+                loadingStore.set(false)
+            })
+        })
+    });
 
 
 </script>
