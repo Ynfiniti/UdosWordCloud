@@ -19,11 +19,13 @@ export class FileData {
   wordCount!: WordCount
 }
 
-function init() {
+async function init() {
   console.log("Initialize resultFiles")
   try {
     data = []
+    let index = 0
     for (const key in resultFiles) {
+      if(index++ >= 1) continue
       resultFiles[key]().then(res => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
@@ -32,6 +34,7 @@ function init() {
           return Object.assign(new FileData(), a)
         })
         data.push(...mapped)
+        console.log("done", index)
       })
     }
   } catch (e) {
