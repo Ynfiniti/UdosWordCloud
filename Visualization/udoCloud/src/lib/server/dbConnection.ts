@@ -3,10 +3,15 @@ import type {CloudSearchInputs} from "$lib/charts/cloud/cloudTypes";
 import {
   queryArticlesInRange,
   queryDatesInRange,
-  queryTokensFromArticles, queryTokenTimeline,
+  queryTokensFromArticles, queryTokenTimeline, queryTopicID, queryTopicMatchesForHref,
   queryTopicsFromArticles, queryTopicTimeline
 } from "$lib/server/dbUtils";
 import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
+import type {Href} from "$lib/database/dbTypes";
+
+/**
+ * TODO Format every return value into the wanted data structure after it is confirmed, that the wanted values are loaded from the database
+ */
 
 const mysqlconn: mysql.Connection = await mysql.createConnection({
   // host: "162.241.218.208",
@@ -46,16 +51,54 @@ export async function getTimeline(searchInputs?: Array<TimelineSearchInputs>){
   let retError: (Error&{sqlMessage: string}) | undefined
   try{
     for(const searchInput of searchInputs){
-      const queryResult = searchInput.forTopic? queryTopicTimeline : queryTokenTimeline
-      const [timeline, columns] = await mysqlconn.query(queryResult(searchInput.value))
+      let timeline, columns
+      if(searchInput.forTopic){
+        // Get topic ID
+        const [topicIDs] = await mysqlconn.query(queryTopicID(searchInput.value));
+        const topicID = topicIDs?.[0]?.data[0] || "";
+
+        // Get timeline
+        [timeline, columns] = await mysqlconn.query(queryTopicTimeline(topicID))
+
+        // Get all articles found and then the hrefs with amounts of topic matches
+        const articleIDs: Array<string> = timeline?.data?.[0]?.["articles"] || []
+        const [hrefs] = await mysqlconn.query(queryTopicMatchesForHref(topicID, ...articleIDs))
+        // Attach hrefs and amounts to data in form ["href##amount", ...]
+        if(timeline.data?.length == 0)
+          timeline.data[0]["hrefs"] = hrefs
+      }
+      else{
+        [timeline, columns] = await mysqlconn.query(queryTokenTimeline(searchInput.value))
+      }
       retArr.push({timeline, columns})
     }
   } catch (error) {
     console.error("Got an error!!!");
+    console.log(error)
     retError = error as (Error&{sqlMessage: string})
   }
   finally{
     // eslint-disable-next-line no-unsafe-finally
     return {result: retArr, error: retError}
+  }
+}
+
+export async function getTest() {
+  const testCon: mysql.Connection = await mysql.createConnection({
+    host: "162.241.218.208",
+    user: "algyvwmy_state_reader",
+    password: "SveltekitMySQL",
+    database: "algyvwmy_states",
+  });
+  try {
+    const [results] = await testCon.query("SELECT state FROM states;")
+
+    return {
+      data: results,
+    };
+  } catch (error) {
+    console.error("Got an error!!!");
+    console.log(error);
+    return error;
   }
 }
