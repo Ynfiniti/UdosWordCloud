@@ -1,0 +1,14 @@
+version: '1'
+
+services:
+  airflow:
+    build:
+      context: airflow
+
+    volumes:
+      - ./airflow:/opt/airflow
+
+    ports:
+      - "8080:8080"
+
+    command: airflow standalone
