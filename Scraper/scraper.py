@@ -5,16 +5,17 @@ from multiprocessing import Pool, Manager
 from tqdm import tqdm
 from utils import parseArticle
 import mysql.connector
+from project_secrets import db_secrets,nyt_secrets
 
-apiKey = ""
-db_host = ""
-db_user = ""
-db_password = ""
-db_database = ""
+api_key = nyt_secrets["API_KEY"]
+db_host = db_secrets["HOST"]
+db_user = db_secrets["USER"]
+db_password = db_secrets["PASSWORD"]
+db_database = "udocloud"
 
 def fetch_month(year:int,month:int)->dict:
-    global apiKey
-    archive_url = f"https://api.nytimes.com/svc/archive/v1/{year}/{month}.json?api-key={apiKey}"
+    global api_key
+    archive_url = f"https://api.nytimes.com/svc/archive/v1/{year}/{month}.json?api-key={api_key}"
     request_url = archive_url.replace("#1", f"{year}").replace("#2", f"{month}")
     print("Fetching from",request_url)
     res = requests.get(request_url)

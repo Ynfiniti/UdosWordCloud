@@ -7,8 +7,10 @@
 /.idea/inspectionProfiles/profiles_settings.xml
 /Scraper/testfiles/
 /Scraper/testfiles/result.json
-/Scraper/__pycache__/
+/**/__pycache__/
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/jsonSchemas.xml
 .vscode/settings.json
 Scraper/testfiles/result.json
+
+/**/project_secrets/*.json
