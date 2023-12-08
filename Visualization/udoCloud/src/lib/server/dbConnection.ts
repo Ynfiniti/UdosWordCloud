@@ -6,12 +6,11 @@ import {
     queryTokensFromArticles,
     queryTokenTimeline,
     queryTopicID,
-    queryTopicMatchesForHref,
     queryTopicsFromArticles,
     queryTopicTimeline
 } from "$lib/server/dbUtils";
 import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
-import type {DBArticle, DBDate} from "$lib/database/dbTypes";
+import type {DBArticle, DBDate, DBTopic, DBTimelineReturn} from "$lib/database/dbTypes";
 
 /**
  * TODO Format every return value into the wanted data structure after it is confirmed, that the wanted values are loaded from the database
@@ -50,32 +49,23 @@ export async function getCloud(searchInput?: CloudSearchInputs) {
     }
 }
 
-export async function getTimeline(searchInputs?: Array<TimelineSearchInputs>) {
-    searchInputs = searchInputs || [{value: "kennedy", forTopic: false}]
-    const retArr: Array<{ timeline: unknown, columns: unknown }> = []
+export async function getTimeline(searchInput: TimelineSearchInputs) {
+    searchInput = searchInput || {value: "kennedy", forTopic: false}
+    let retArr: {timeline: unknown, columns: unknown } | undefined
     let retError: (Error & { sqlMessage: string }) | undefined
     try {
-        for (const searchInput of searchInputs) {
-            let timeline, columns
-            if (searchInput.forTopic) {
-                // Get topic ID
-                const [topicIDs] = await mysqlconn.query(queryTopicID(searchInput.value));
-                const topicID = topicIDs?.[0]?.data[0] || "";
+        let timeline: DBTimelineReturn[], columns
+        if (searchInput.forTopic) {
+            // Get topic ID
+            const [topics]: [DBTopic[]] = await mysqlconn.query(queryTopicID(searchInput.value));
+            const topicID = topics[0].topicID;
 
-                // Get timeline
-                [timeline, columns] = await mysqlconn.query(queryTopicTimeline(topicID))
-
-                // Get all articles found and then the hrefs with amounts of topic matches
-                const articleIDs: Array<string> = timeline?.data?.[0]?.["articles"] || []
-                const [hrefs] = await mysqlconn.query(queryTopicMatchesForHref(topicID, ...articleIDs))
-                // Attach hrefs and amounts to data in form ["href##amount", ...]
-                if (timeline.data?.length == 0)
-                    timeline.data[0]["hrefs"] = hrefs
-            } else {
-                [timeline, columns] = await mysqlconn.query(queryTokenTimeline(searchInput.value))
-            }
-            retArr.push({timeline, columns})
+            // Get timeline
+            [timeline, columns] = await mysqlconn.query(queryTopicTimeline(topicID))
+        } else {
+            [timeline, columns] = await mysqlconn.query(queryTokenTimeline(searchInput.value))
         }
+        retArr = {timeline, columns}
     } catch (error) {
         console.error("Got an error!!!");
         console.log(error)

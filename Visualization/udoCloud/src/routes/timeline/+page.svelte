@@ -87,6 +87,7 @@
 
     // Gets executed every time dbStore and loadingStore change
     $: {
+        console.log($dbStore.timeline)
         selectedHrefs = []
         lineCharData.data = $dbStore.timeline.map(d => {
             d.data.map(e => {

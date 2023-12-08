@@ -1,4 +1,5 @@
-export const hrefTokenSeperator = "##"
+export const hrefAmountSeparator = "##"
+export const stringSeparator = ", "
 
 export function queryDatesInRange(dateMin: string, dateMax: string) {
     return `SELECT dateID 
@@ -36,13 +37,13 @@ export function queryTopicsFromArticles(...articleIDs: number[]) {
 }
 
 export function queryTokenTimeline(token: string) {
-    return `SELECT t.name as name, SUM(t.amount) as amount, d.publish_date, 
-          GROUP_CONCAT(CONCAT(a.href, '${hrefTokenSeperator}', t.amount) SEPARATOR ', ') as hrefs
+    return `SELECT a.href, sum(t.amount) as amount,
+          DATE_FORMAT(d.publish_date, '%Y-%m-%d') as date
           FROM token t
           JOIN article a USING(articleID)
           JOIN date d USING(dateID)
           WHERE t.name LIKE '${token}'
-          GROUP BY d.publish_date`
+          GROUP BY d.publish_date, articleID`
 }
 
 export function queryTopicID(name: string) {
@@ -51,22 +52,13 @@ export function queryTopicID(name: string) {
           WHERE name LIKE '${name}'`
 }
 
-export function queryTopicTimeline(topicID: string) {
-    return `SELECT t.name as name, COUNT(t.name) as amount, GROUP_CONCAT(a.articleID SEPARATOR ', ') as articles
+export function queryTopicTimeline(topicID: number) {
+    return `SELECT a.href, count(articleID) as amount,
+          DATE_FORMAT(d.publish_date, '%Y-%m-%d') as date
           FROM article_to_topic att
           JOIN topic t USING(topicID)
           JOIN article a USING(articleID)
           JOIN date d USING(dateID)
           WHERE att.topicID = ${topicID || -1}
-          GROUP BY d.publish_date`
-}
-
-export function queryTopicMatchesForHref(topicID: string, ...articleIDs: string[]) {
-    console.log("got something", topicID || -1, articleIDs?.join("', '") || "NULL")
-    return `SELECT a.href as link, COUNT(att.articleID) as amount
-          FROM article_to_topic att
-          JOIN article a USING(articleID)
-          WHERE att.topicID = ${topicID || -1}
-          AND articleID IN ('${articleIDs?.join("', '") || "NULL"}')
-          GROUP BY a.href`
+          GROUP BY d.publish_date, articleID`
 }

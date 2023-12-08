@@ -1,7 +1,7 @@
 import type {RequestEvent} from '@sveltejs/kit'
 import {json} from '@sveltejs/kit'
-import {createDBTimeline} from "$lib/server/fileUtils.js"
 import {getTimeline} from "$lib/server/dbConnection";
+import type {DBTimelineDataElement, DBTimelineReturn, Href} from "$lib/database/dbTypes";
 
 // /api/newsletter GET
 
@@ -9,20 +9,42 @@ export async function GET(event: RequestEvent) {
     const value: string = event.url.searchParams.get("value") || ""
     const forTopic: boolean = event.url.searchParams.get("forTopic") === "true"
 
-    console.log("for Timleine: ", value, forTopic)
+    const {result, error} = await getTimeline({value, forTopic})
+    const retTimeline = parseTimeline(result?.timeline as Array<DBTimelineReturn> || [])
 
-    getTimeline([{value: "sport", forTopic: false}]).then(({result, error}) => {
-        console.log("From timeline, false")
-        console.log(result)
-        if (error) console.error(error.sqlMessage)
-    })
-    getTimeline([{value: "sport", forTopic: true}]).then(({result, error}) => {
-        console.log("From timeline, true")
-        console.log(result)
-        if (error) console.error(error.sqlMessage)
-    })
 
-    const ret = createDBTimeline({value, forTopic})
+    if(error){
+        console.log("Error in timeline api", value, forTopic, "\n", error)
+    }
 
-    return json(ret)
+    return json(retTimeline)
+}
+
+function parseTimeline(timeline: Array<DBTimelineReturn>){
+    /**
+     * date: string
+     * amount: number
+     * hrefs: [{
+     *     link: string
+     *     amount: number
+     * }]
+     */
+    const retArr: Array<DBTimelineDataElement> = []
+    const dateGroup: { [key: string]: DBTimelineReturn[] } = {}
+    for(const t of timeline){
+        if(t.date in dateGroup) dateGroup[t.date].push(t)
+        else dateGroup[t.date] = [t]
+    }
+    for(const date in dateGroup){
+        const amount = dateGroup[date].map(d => parseInt(d.amount)).reduce((a, b) => a+b)
+        const hrefs = dateGroup[date].map(e => {
+            return {
+                link: e.href,
+                amount: parseInt(e.amount)
+            } as Href
+        })
+        retArr.push({date, amount, hrefs})
+    }
+
+    return retArr
 }
