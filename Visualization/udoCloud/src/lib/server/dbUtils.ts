@@ -15,10 +15,13 @@ export function queryArticlesInRange(...datesIDs: number[]) {
 }
 
 export function queryTokensFromArticles(...articleIDs: number[]) {
-    return `SELECT token.name as name, sum(token.amount) as amount
-          FROM token
-          WHERE token.articleID IN ('${articleIDs.join("', '") || "NULL"}')
-          GROUP BY token.name;`
+    return `SELECT t.name as name, sum(t.amount) as amount
+          FROM token t
+          WHERE t.articleID IN ('${articleIDs.join("', '") || "NULL"}')
+          AND t.name REGEXP '[a-zA-z].*'
+          GROUP BY t.name
+          ORDER BY amount DESC
+          LIMIT 100;`
 }
 
 export function queryTopicsFromArticles(...articleIDs: number[]) {
@@ -26,7 +29,10 @@ export function queryTopicsFromArticles(...articleIDs: number[]) {
           FROM topic t
           JOIN article_to_topic att USING(topicID)
           WHERE att.articleID IN ('${articleIDs.join("', '") || "NULL"}')
-          GROUP BY t.name;`
+          AND t.name REGEXP '[a-zA-z].*'
+          GROUP BY t.name
+          ORDER BY amount DESC
+          LIMIT 100;`
 }
 
 export function queryTokenTimeline(token: string) {

@@ -61,16 +61,10 @@
 
     // Gets executed everytime dbStore and loadingStore change
     $:{
-        const limit = $dbStore.cloud.length >= 100 ? 100 : $dbStore.cloud.length
-        let newData: ChartTabularData
-        try {
-            newData = $dbStore.cloud.toSorted((a, b) => b.amount - a.amount).splice(0, limit) as ChartTabularData
-        } catch (e) {
-            newData = []
-        }
+        let newData: ChartTabularData = $dbStore.cloud as ChartTabularData || []
         wordCloudData.data = newData.map(d => {
                 d["word"] = d["name"]
-                d["value"] = d["amount"]
+                d["value"] = parseFloat(d["amount"])
                 d["group"] = d["amount"]
                 delete d["name"]
                 delete d["amount"]

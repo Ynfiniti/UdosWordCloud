@@ -20,7 +20,7 @@
 
 export interface DBCloudElement {
     name: string
-    amount: number
+    amount: string
 }
 
 /**

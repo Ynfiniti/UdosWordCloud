@@ -80,7 +80,7 @@ function getTokenAmount(articles: Array<FileData>) {
     // Parse to DBCloud array
     const retArr: Array<DBCloudElement> = []
     for (const token in amounts) {
-        retArr.push({name: token, amount: amounts[token]})
+        retArr.push({name: token, amount: ""+ amounts[token]})
     }
 
     return retArr.filter(e => isNaN(parseInt(e.name)) && e.name.trim() !== "")
@@ -101,7 +101,7 @@ function getTopicAmount(articles: Array<FileData>) {
     // Parse to DBCloud array
     const retArr: Array<DBCloudElement> = []
     for (const token in amounts) {
-        retArr.push({name: token, amount: amounts[token]})
+        retArr.push({name: token, amount: "" + amounts[token]})
     }
 
     return retArr

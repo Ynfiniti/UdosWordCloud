@@ -32,16 +32,17 @@ const mysqlconn: mysql.Connection = await mysql.createConnection({
 export async function getCloud(searchInput?: CloudSearchInputs) {
     searchInput = searchInput || {dateMax: "1963-12-31", dateMin: "1963-05-01", forTopic: false}
     let retToken = {tokens: undefined, columns: undefined}
-    console.log("Searching in db", searchInput)
     let retError: (Error & { sqlMessage: string }) | undefined
+
     try {
         const [dates]: [DBDate[]] = await mysqlconn.query(queryDatesInRange(searchInput.dateMin, searchInput.dateMax))
-        const [articles]: [DBArticle[]] = await mysqlconn.query(queryArticlesInRange(...(dates.map(d => d.dateID))))
+        const dateIDs = dates.map(d => d.dateID)
+        const [articles]: [DBArticle[]] = await mysqlconn.query(queryArticlesInRange(...dateIDs))
+        const articleIDs = articles.map(a => a.articleID)
         const queryResult = searchInput.forTopic ? queryTopicsFromArticles : queryTokensFromArticles
-        const [tokens, columns] = await mysqlconn.query(queryResult(...(articles.map(a => a.articleID))))
+        const [tokens, columns] = await mysqlconn.query(queryResult(...articleIDs))
         retToken = {tokens, columns};
     } catch (error) {
-        console.error("Got an error!!!");
         retError = error as (Error & { sqlMessage: string });
     } finally {
         // eslint-disable-next-line no-unsafe-finally
