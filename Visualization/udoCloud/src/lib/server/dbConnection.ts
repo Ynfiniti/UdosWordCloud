@@ -58,7 +58,7 @@ export async function getTimeline(searchInput: TimelineSearchInputs) {
         if (searchInput.forTopic) {
             // Get topic ID
             const [topics]: [DBTopic[]] = await mysqlconn.query(queryTopicID(searchInput.value));
-            const topicID = topics[0].topicID;
+            const topicID = topics[0]?.topicID || -1;
 
             // Get timeline
             [timeline, columns] = await mysqlconn.query(queryTopicTimeline(topicID))
