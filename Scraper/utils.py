@@ -1,11 +1,10 @@
 import spacy
 from spacy.language import Language
-from transformers import pipeline
+# from transformers import pipeline
 from multiprocessing.managers import SharedMemoryManager
 import numpy as np
 
-classifier = pipeline("zero-shot-classification",
-                      model="facebook/bart-large-mnli")
+# classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
 # Disabling components not needed (optional, but useful if run on a large dataset)
 nlp = spacy.load(
