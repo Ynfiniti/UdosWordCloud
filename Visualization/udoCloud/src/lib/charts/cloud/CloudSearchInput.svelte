@@ -30,10 +30,10 @@
 </script>
 
 <label for="datemin">start</label>
-<input id="datemin" type="month" min="{DATE_MIN}" bind:value={searchInputs.dateMin}>
+<input id="datemin" type="date" min="{DATE_MIN}" bind:value={searchInputs.dateMin}>
 
 <label for="datemax">end</label>
-<input id="datemax" type="month" min="{searchInputs.dateMin}" bind:value={searchInputs.dateMax}>
+<input id="datemax" type="date" min="{searchInputs.dateMin}" bind:value={searchInputs.dateMax}>
 
 <label for="forTopic">Search for topics</label>
 <input id="forTopic" type="checkbox" bind:checked={searchInputs.forTopic}>

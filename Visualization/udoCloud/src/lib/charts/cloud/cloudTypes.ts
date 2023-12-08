@@ -22,4 +22,4 @@ export interface CloudSearchInputs {
     forTopic: boolean
 }
 
-export const DATE_MIN = "1852-01"
+export const DATE_MIN = "1852-01-01"

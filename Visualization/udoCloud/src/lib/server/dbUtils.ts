@@ -3,25 +3,25 @@ export const hrefTokenSeperator = "##"
 export function queryDatesInRange(dateMin: string, dateMax: string) {
     return `SELECT dateID 
           FROM date 
-          WHERE publish_date >= ${dateMin}
-          AND publish_date <= ${dateMax}
+          WHERE publish_date >= '${dateMin}'
+          AND publish_date <= '${dateMax}'
           `
 }
 
-export function queryArticlesInRange(...datesIDs: string[]) {
+export function queryArticlesInRange(...datesIDs: number[]) {
     return `SELECT articleID
           FROM article
           WHERE dateID IN (${datesIDs.join(", ") || "NULL"})`
 }
 
-export function queryTokensFromArticles(...articleIDs: string[]) {
+export function queryTokensFromArticles(...articleIDs: number[]) {
     return `SELECT token.name as name, sum(token.amount) as amount
           FROM token
           WHERE token.articleID IN ('${articleIDs.join("', '") || "NULL"}')
           GROUP BY token.name;`
 }
 
-export function queryTopicsFromArticles(...articleIDs: string[]) {
+export function queryTopicsFromArticles(...articleIDs: number[]) {
     return `SELECT t.name as name, count(t.name) as amount
           FROM topic t
           JOIN article_to_topic att USING(topicID)

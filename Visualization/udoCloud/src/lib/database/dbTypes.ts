@@ -19,8 +19,8 @@
  */
 
 export interface DBCloudElement {
-    word: string
-    value: number
+    name: string
+    amount: number
 }
 
 /**
@@ -42,4 +42,31 @@ export interface DBTimelineDataElement {
 export interface Href {
     link: string,
     amount: number
+}
+
+export interface DBDate {
+    dateID: number
+    publish_date: string
+}
+
+export interface DBArticle {
+    articleID: number
+    href: string
+    dateID: number
+}
+
+export interface DBToken {
+    name: string
+    amount: number
+    articleID: number
+}
+
+export interface DBTopic {
+    topicID: number
+    name: string
+}
+
+export interface DBArticleToTopic {
+    articleID: number
+    topicID: number
 }

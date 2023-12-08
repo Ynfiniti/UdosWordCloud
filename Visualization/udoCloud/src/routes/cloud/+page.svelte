@@ -13,8 +13,8 @@
      * Inits for SearchInput
      */
     let initialValues = {
-        initialDateMin: $page.url.searchParams.get('dateMin') || "1852-01",
-        initialDateMax: $page.url.searchParams.get('dateMax') || "2001-09",
+        initialDateMin: $page.url.searchParams.get('dateMin') || "1852-01-01",
+        initialDateMax: $page.url.searchParams.get('dateMax') || "2001-09-30",
         initialForTopic: $page.url.searchParams.get('forTopic') == "false",
     }
 
@@ -64,12 +64,16 @@
         const limit = $dbStore.cloud.length >= 100 ? 100 : $dbStore.cloud.length
         let newData: ChartTabularData
         try {
-            newData = $dbStore.cloud.toSorted((a, b) => b.value - a.value).splice(0, limit) as ChartTabularData
+            newData = $dbStore.cloud.toSorted((a, b) => b.amount - a.amount).splice(0, limit) as ChartTabularData
         } catch (e) {
             newData = []
         }
         wordCloudData.data = newData.map(d => {
-                d["group"] = d["value"]
+                d["word"] = d["name"]
+                d["value"] = d["amount"]
+                d["group"] = d["amount"]
+                delete d["name"]
+                delete d["amount"]
                 return d
             }
         )
