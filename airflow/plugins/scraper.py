@@ -1,5 +1,3 @@
-# from modules import db_utils,lang_utils
-
 import sys
 import os
 
@@ -12,8 +10,18 @@ from db_utils import create_article_in_db,get_name
 from lang_utils import parseArticle,get_name2
 
 def scrape():
-    print("#########################")
+    print("################")
     print("Found these secrets:", db_secrets)
     print(get_name())
     print(get_name2())
-    print("#########################")
+    print("################")
+
+def daily_scrape():
+    print("################")
+    print("# DAILY SCRAPE #")
+    print("################")
+
+def hourly_scrape():
+    print("#################")
+    print("# HOURLY SCRAPE #")
+    print("#################")
