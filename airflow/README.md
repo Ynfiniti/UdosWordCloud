@@ -1,7 +1,15 @@
 init airflow by running docker-compose in project-root-directory
 
+# init airflow
+
 ```sh
-docker-compose up
+docker build --pull --rm -f "airflow\Dockerfile" -t udoswordcloud:latest "airflow"
+```
+
+
+
+```sh
+docker-compose up --build
 ```
 
 open in browser

@@ -4,8 +4,9 @@ import json
 from multiprocessing import Pool, Manager
 from tqdm import tqdm
 from modules.lang_utils import parseArticle
-import mysql.connector
 from project_secrets import db_secrets,nyt_secrets
+import mysql.connector
+import time
 
 api_key = nyt_secrets["API_KEY"]
 db_host = db_secrets["HOST"]
@@ -74,10 +75,9 @@ def parse_params_for_database(article:dict)->list:
     return params
 
 if __name__ == '__main__':
-    import time
     start_time = time.time()
     
-    docs = fetch_month(1963,7)
+    docs = fetch_month(1963,6)
 
     article_word_count = parse_docs(docs)
     print("Number of articles: ",len(article_word_count))
@@ -91,60 +91,9 @@ if __name__ == '__main__':
         password=db_password,
         database=db_database
     )
-    ###################
-    # UPDATED VERSION #
-    ###################
-
+    
     for article in article_word_count:
         create_article_in_db(article,mydb)
-    
-    ###############
-    # OLD VERSION #
-    ###############
-    # date_sql = "INSERT IGNORE INTO date (publish_date) VALUES (%s)"
-    # article_sql = "INSERT IGNORE INTO article (href, dateID) VALUES (%s, %s)"
-    # topic_sql = "INSERT IGNORE INTO topic (name) VALUES(%s)"
-    # article_to_topic_sql = "INSERT IGNORE INTO article_to_topic (topicID, articleID) VALUES(%s, %s)"
-    # token_sql = "INSERT IGNORE INTO token (name, amount, articleID) VALUES(%s, %s, %s)"
-
-    # # print("uploading....")
-    # # update via select before running
-    # prevDates = {}
-    # prevTopics = {}
-    # dbCursor = mydb.cursor()
-    # for article in article_word_count:
-    #     date = article["date"].split("T")[0]
-    #     # print(date)
-    #     if date not in prevDates:
-    #         # date_ = datetime.strptime(date, '%Y-%m-%d')#.isoformat()
-    #         year = int(date.split("-")[0])
-    #         month = int(date.split("-")[1].lstrip("0"))
-    #         day = int(date.split("-")[2].lstrip("0"))
-    #         date_ = datetime(year,month,day)
-    #         # print(date_)
-    #         dbCursor.execute(date_sql, (date_,))
-    #         mydb.commit()
-    #         prevDates[date] = dbCursor.lastrowid
-        
-    #     dbCursor.execute(article_sql, (article["href"], prevDates[date]))
-    #     mydb.commit()
-    #     articleID = int("" + str(dbCursor.lastrowid))
-    #     for topic in article["topics"]:
-    #         if topic not in prevTopics:
-    #             dbCursor.execute(topic_sql, (topic,))
-    #             mydb.commit()
-    #             prevTopics[topic] = dbCursor.lastrowid
-    #     # print(articleID)
-    #     article_to_topics = [(prevTopics[t], articleID) for t in article["topics"]]
-    #     # print(article_to_topics)
-    #     dbCursor.executemany(article_to_topic_sql, article_to_topics)
-
-    #     tokens = [(k, article["wordCount"][k]["amount"], articleID) for k in article["wordCount"]]
-    #     dbCursor.executemany(token_sql, tokens)
-        
-    #     mydb.commit()
-
-    # dbCursor.close()
 
     upload_time = time.time() - start_time
     print("Total upload time:", upload_time)
