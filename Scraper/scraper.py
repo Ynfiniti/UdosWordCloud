@@ -3,7 +3,7 @@ import requests
 import json
 from multiprocessing import Pool, Manager
 from tqdm import tqdm
-from utils import parseArticle
+from modules.lang_utils import parseArticle
 import mysql.connector
 from project_secrets import db_secrets,nyt_secrets
 
