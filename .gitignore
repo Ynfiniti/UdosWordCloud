@@ -13,5 +13,6 @@
 .vscode/settings.json
 Scraper/testfiles/result.json
 
+Visualization/udoCloud/.idea/
 /**/project_secrets/*.json
 test.*
