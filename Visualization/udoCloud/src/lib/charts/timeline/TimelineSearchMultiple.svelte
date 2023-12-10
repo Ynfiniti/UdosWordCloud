@@ -20,7 +20,6 @@
 
     function add(){
       searchInputs = [...searchInputs, {value: "", forTopic: false}]
-      console.log("Adding new thing", searchInputs)
     }
 
     function del(i: number){
@@ -28,7 +27,6 @@
   }
 
     function submit() {
-      console.log("submitting", searchInputs)
       dispatch("submit", searchInputs)
     }
 </script>

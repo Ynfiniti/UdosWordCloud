@@ -39,7 +39,6 @@ function createDBStore() {
     }
 
     const setNewData = (data: Array<DBCloudElement> | Array<DBTimelineElement>, forTimeline = false) => {
-        console.log("Set new data", data, forTimeline)
         update(d => {
             return {
                 cloud: !forTimeline ? data as Array<DBCloudElement> : d.cloud,

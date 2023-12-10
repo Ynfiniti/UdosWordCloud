@@ -51,7 +51,6 @@
 
     // Gets executed every time dbStore and loadingStore change
     $: {
-        console.log($dbStore.timeline)
         selectedHrefs = []
         const newData = $dbStore.timeline as ChartTabularData || []
         lineCharData.data = newData.map(d => {
