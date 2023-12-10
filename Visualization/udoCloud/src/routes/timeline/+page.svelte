@@ -53,7 +53,7 @@
     $: {
         console.log($dbStore.timeline)
         selectedHrefs = []
-        const newData = $dbStore.timeline as ChartTabularData || {}
+        const newData = $dbStore.timeline as ChartTabularData || []
         lineCharData.data = newData.map(d => {
             d.data.map((e: { [key: string]: string }) => {
                 e["group"] = `${d.label}, ${d.forTopic}`
