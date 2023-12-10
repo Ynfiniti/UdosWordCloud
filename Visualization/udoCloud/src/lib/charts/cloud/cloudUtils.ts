@@ -5,8 +5,6 @@ import type {ChartTheme} from "@carbon/charts-svelte";
 
 export const wordCloudProps: WordCloudProps = {
     options: {
-        title: "Word cloud",
-        resizable: true,
         height: "600px",
         theme: "white" as ChartTheme,
         animations: true,
@@ -18,7 +16,7 @@ export const wordCloudProps: WordCloudProps = {
             }
         },
         data: {
-            loading: false
+            loading: true
         }
     },
     data: [] as ChartTabularData
