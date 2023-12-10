@@ -43,7 +43,8 @@ export function queryTokenTimeline(token: string) {
           JOIN article a USING(articleID)
           JOIN date d USING(dateID)
           WHERE t.name LIKE '${token}'
-          GROUP BY d.publish_date, articleID`
+          GROUP BY d.publish_date, articleID
+          ORDER BY d.publish_date ASC`
 }
 
 export function queryTopicID(name: string) {
@@ -60,5 +61,6 @@ export function queryTopicTimeline(topicID: number) {
           JOIN article a USING(articleID)
           JOIN date d USING(dateID)
           WHERE att.topicID = ${topicID || -1}
-          GROUP BY d.publish_date, articleID`
+          GROUP BY d.publish_date, articleID
+          ORDER BY d.publish_date ASC`
 }
