@@ -38,6 +38,7 @@ export async function getCloud(searchInput?: CloudSearchInputs) {
     } catch (error) {
         retError = error as (Error & { sqlMessage: string });
     } finally {
+        await mysqlconn.end()
         // eslint-disable-next-line no-unsafe-finally
         return {result: retToken, error: retError}
     }
@@ -70,6 +71,7 @@ export async function getTimeline(searchInput: TimelineSearchInputs) {
     } catch (error) {
         retError = error as (Error & { sqlMessage: string })
     } finally {
+        await mysqlconn.end()
         // eslint-disable-next-line no-unsafe-finally
         return {result: retArr, error: retError}
     }
