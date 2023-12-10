@@ -1,31 +1,11 @@
-/**
- * USE udocloud;
- * SELECT token.name, sum(token.amount)
- * FROM token
- * JOIN article a USING(articleID)
- * WHERE token.articleID IN
- * (    SELECT articleID
- *     FROM article JOIN topic USING(topicID)
- *     WHERE dateID IN
- *     (    SELECT dateID
- *         FROM date
- *         WHERE day LIKE 1
- *         AND month LIKE 1
- *         AND year LIKE 1970
- *     )
- *     AND topic.name IN ('Sport')
- * )
- * GROUP BY token.name;
- */
-
 export interface DBCloudElement {
     name: string
     amount: string
 }
 
 /**
- * Object with all dates as keys.
  * Gathering the amount a token / topic occurred on a day and collect all hrefs as proof
+ * label and forTopic are used to distinguish between multiple results for each searchInput provided
  */
 export interface DBTimelineElement {
     data: Array<DBTimelineDataElement>,
@@ -63,7 +43,7 @@ export interface DBArticle {
 
 export interface DBToken {
     name: string
-    amount: number
+    amount: string
     articleID: number
 }
 

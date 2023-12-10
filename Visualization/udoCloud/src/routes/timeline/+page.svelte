@@ -1,16 +1,15 @@
 <script lang="ts">
     import {page} from '$app/stores';
     import {onMount} from "svelte";
-    import type {ScaleTypes} from "@carbon/charts-svelte";
-    import {Alignments, LineChart} from "@carbon/charts-svelte";
+    import {LineChart} from "@carbon/charts-svelte";
     import type {LineChartEvent, LineChartProps, TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
     import type {ChartTabularData, LineChart as LineChartCore} from "@carbon/charts";
-    import {ZoomBarTypes} from "@carbon/charts";
     import {loadingStore} from "$lib/charts/chartUtils";
     import {dbStore} from "$lib/database/dbStore";
     import TimelineHrefList from "$lib/charts/timeline/TimelineHrefList.svelte";
     import type {Href} from "$lib/database/dbTypes";
     import TimelineSearchMultiple from "$lib/charts/timeline/TimelineSearchMultiple.svelte";
+    import {lineChartProps} from "$lib/charts/timeline/timelineUtils";
 
     /**
      * Inits for SearchInput
@@ -31,41 +30,7 @@
 
     let chart!: LineChartCore
 
-    const lineCharData: LineChartProps = {
-        options: {
-            animations: true,
-            legend: {
-                enabled: true,
-                alignment: Alignments.CENTER
-            },
-            tooltip: {
-                enabled: true
-            },
-            zoomBar: {
-                top: {
-                    enabled: true,
-                    type: ZoomBarTypes.SLIDER_VIEW
-                }
-            },
-            data: {
-                loading: false
-            },
-            axes: {
-                bottom: {
-                    title: "Dates",
-                    mapsTo: "date",
-                    scaleType: "time" as ScaleTypes
-                },
-                left: {
-                    mapsTo: "amount",
-                    title: "Occurrences",
-                    scaleType: "linear" as ScaleTypes
-                }
-            },
-            height: "400px"
-        },
-        data: [] as ChartTabularData
-    }
+    const lineCharData: LineChartProps = lineChartProps
 
     /**
      * Init for href list
@@ -76,7 +41,6 @@
         loadingStore.set(true)
 
         chart.services.events.addEventListener("scatter-click", (e: CustomEvent<LineChartEvent>) => {
-            console.log(e.detail.datum)
             selectedHrefs = e.detail.datum.hrefs
         })
     });
@@ -89,14 +53,15 @@
     $: {
         console.log($dbStore.timeline)
         selectedHrefs = []
-        lineCharData.data = $dbStore.timeline.map(d => {
-            d.data.map(e => {
+        const newData = $dbStore.timeline as ChartTabularData || {}
+        lineCharData.data = newData.map(d => {
+            d.data.map((e: { [key: string]: string }) => {
                 e["group"] = `${d.label}, ${d.forTopic}`
                 return e
             })
             return d.data
         }).flat()
-        console.log("Result: ", $dbStore.timeline, lineCharData.data)
+
         lineCharData.options!.data!.loading = $loadingStore
     }
 </script>

@@ -6,6 +6,9 @@ export type WordCloudProps = {
     options: WorldCloudChartOptions
 }
 
+/**
+ * Type of the event object received when a word bubble is clicked
+ */
 export type WordCloudEvent = {
     datum: {
         group: number,

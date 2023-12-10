@@ -14,10 +14,6 @@
               submit()
       })
 
-      /**
-       * TODO monthpicker -> datepicker
-       */
-
       export let searchInputs: CloudSearchInputs = {
         dateMin: initialDateMin,
         dateMax: initialDateMax,

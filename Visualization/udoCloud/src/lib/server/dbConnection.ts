@@ -60,7 +60,6 @@ export async function getTimeline(searchInput: TimelineSearchInputs) {
         }
         retArr = {timeline, columns}
     } catch (error) {
-        console.error("Got an error!!!");
         retError = error as (Error & { sqlMessage: string })
     } finally {
         // eslint-disable-next-line no-unsafe-finally
