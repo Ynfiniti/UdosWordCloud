@@ -30,7 +30,7 @@ def create_article_in_db(article,db_connection):
 
 def formate_article_date(date:str)->datetime:
     '''
-    date formate: "yyyy-MM-ddThh:mm:ss+0000"
+    date formate: "%Y-%m-%dT%H:%M:%S%z
     '''
     date = date.split("T")[0]
     splitted_date = date.split("-")

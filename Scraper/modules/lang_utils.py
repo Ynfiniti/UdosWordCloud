@@ -15,39 +15,6 @@ nlp.enable_pipe("senter")
 nlp.add_pipe("merge_noun_chunks")
 nlp.add_pipe("merge_entities")
 
-arr = []
-
-
-def setArr(a):
-    global arr
-    arr = a
-    return arr
-
-
-def getArr():
-    global arr
-    return arr
-
-
-def mult(x):
-    global arr
-    print(f"why? {x}, {arr}")
-    a = 2
-    c = x
-    return f"why? {x}, {arr}"
-
-
-def init(shared_array_base):
-    global shared_array
-    shared_array = np.ctypeslib.as_array(shared_array_base.get_obj())
-    shared_array = shared_array.reshape(10, 10)
-
-
-# Parallel processing
-def my_func(i):
-    shared_array[i, :] = i
-
-
 def getTopics(doc):
     ks = list(map(lambda k: k["value"], doc["keywords"]))
     nd = doc["news_desk"]

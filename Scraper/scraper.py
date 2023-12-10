@@ -62,7 +62,7 @@ def create_article_in_db(article,db_connection):
                 return articel_id_found
             else:
                 print("Article not found")
-    except mysql.connector.Error as err:
+    except Exception as err:
         print(err)
 
 def parse_params_for_database(article:dict)->list:
@@ -76,8 +76,17 @@ def parse_params_for_database(article:dict)->list:
 
 if __name__ == '__main__':
     start_time = time.time()
+
+    year = 1963
+    month = 6
+    day = None
     
-    docs = fetch_month(1963,6)
+    docs = fetch_month(year,month)
+
+    if day is not None:
+        target_date = datetime(year,month,day)
+        # filter by date
+        docs = [item for item in docs if datetime.strptime(item["publish_date"], "%Y-%m-%dT%H:%M:%S%z").date() == target_date.date()]
 
     article_word_count = parse_docs(docs)
     print("Number of articles: ",len(article_word_count))

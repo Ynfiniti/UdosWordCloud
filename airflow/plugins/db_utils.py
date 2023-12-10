@@ -1,4 +1,10 @@
 import datetime
+from enum import Enum
+
+class DatabaseDateStates(Enum):
+    OPEN = 0
+    IN_PROGRESS = 1
+    FINISHED = 2
 
 def parse_params_for_database(article:dict)->list:
     params = [
@@ -39,5 +45,9 @@ def formate_article_date(date:str)->datetime:
     date_ = datetime(year,month,day)
     return date_
 
-def get_name():
-    return __name__
+def set_date_state(date:str,state:DatabaseDateStates,db_connection):
+    statement = "UPDATE date SET state = %s WHERE publish_date = Date(%s);"
+    values = (state,date)
+    cursor = db_connection.cursor()
+    cursor.execute(statement,values)
+    db_connection.commit()

@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS article_to_topic(
 CREATE TABLE IF NOT EXISTS date(
     dateID INT NOT NULL AUTO_INCREMENT,
     publish_date datetime NOT NULL,
+    state INT,
     PRIMARY KEY(dateID),
     UNIQUE KEY unique_date_constraint (publish_date)
 );
