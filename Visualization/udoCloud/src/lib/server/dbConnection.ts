@@ -13,15 +13,16 @@ import {
 import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
 import type {DBArticle, DBDate, DBTopic, DBTimelineReturn} from "$lib/database/dbTypes";
 
-const mysqlconn: mysql.Connection = await mysql.createConnection({
-    host: dbSecrets.host,
-    port: dbSecrets.port,
-    user: dbSecrets.user,
-    password: dbSecrets.password,
-    database: dbSecrets.database
-});
+
 
 export async function getCloud(searchInput?: CloudSearchInputs) {
+    const mysqlconn: mysql.Connection = await mysql.createConnection({
+        host: dbSecrets.host,
+        port: dbSecrets.port,
+        user: dbSecrets.user,
+        password: dbSecrets.password,
+        database: dbSecrets.database
+    });
     searchInput = searchInput || {dateMax: "1963-12-31", dateMin: "1963-05-01", forTopic: false}
     let retToken = {tokens: undefined, columns: undefined}
     let retError: (Error & { sqlMessage: string }) | undefined
@@ -43,6 +44,13 @@ export async function getCloud(searchInput?: CloudSearchInputs) {
 }
 
 export async function getTimeline(searchInput: TimelineSearchInputs) {
+    const mysqlconn: mysql.Connection = await mysql.createConnection({
+        host: dbSecrets.host,
+        port: dbSecrets.port,
+        user: dbSecrets.user,
+        password: dbSecrets.password,
+        database: dbSecrets.database
+    });
     searchInput = searchInput || {value: "kennedy", forTopic: false}
     let retArr: {timeline: unknown, columns: unknown } | undefined
     let retError: (Error & { sqlMessage: string }) | undefined
