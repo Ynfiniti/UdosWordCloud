@@ -1,4 +1,5 @@
 import mysql from "mysql2/promise";
+import * as dbSecrets from "../../../static/secrets.json"
 import type {CloudSearchInputs} from "$lib/charts/cloud/cloudTypes";
 import {
     queryArticlesInRange,
@@ -12,20 +13,12 @@ import {
 import type {TimelineSearchInputs} from "$lib/charts/timeline/timelineTypes";
 import type {DBArticle, DBDate, DBTopic, DBTimelineReturn} from "$lib/database/dbTypes";
 
-/**
- * TODO Format every return value into the wanted data structure after it is confirmed, that the wanted values are loaded from the database
- */
-
 const mysqlconn: mysql.Connection = await mysql.createConnection({
-    // host: "162.241.218.208",
-    // user: "algyvwmy_state_reader",
-    // password: "SveltekitMySQL",
-    // database: "algyvwmy_states",
-    host: "udos-word-cluster.cpmzi0faommf.eu-central-1.rds.amazonaws.com",
-    port: 3306,
-    user: "admin",
-    password: "YjPSBs1HYPKDHD1Ox7dW",
-    database: "udocloud"
+    host: dbSecrets.host,
+    port: dbSecrets.port,
+    user: dbSecrets.user,
+    password: dbSecrets.password,
+    database: dbSecrets.database
 });
 
 export async function getCloud(searchInput?: CloudSearchInputs) {
@@ -68,30 +61,9 @@ export async function getTimeline(searchInput: TimelineSearchInputs) {
         retArr = {timeline, columns}
     } catch (error) {
         console.error("Got an error!!!");
-        console.log(error)
         retError = error as (Error & { sqlMessage: string })
     } finally {
         // eslint-disable-next-line no-unsafe-finally
         return {result: retArr, error: retError}
-    }
-}
-
-export async function getTest() {
-    const testCon: mysql.Connection = await mysql.createConnection({
-        host: "162.241.218.208",
-        user: "algyvwmy_state_reader",
-        password: "SveltekitMySQL",
-        database: "algyvwmy_states",
-    });
-    try {
-        const [results] = await testCon.query("SELECT state FROM states;")
-
-        return {
-            data: results,
-        };
-    } catch (error) {
-        console.error("Got an error!!!");
-        console.log(error);
-        return error;
     }
 }
