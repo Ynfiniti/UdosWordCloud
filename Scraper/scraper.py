@@ -142,10 +142,12 @@ def scrape(year,month):
 if __name__ == '__main__':
     start_time_ = time.time()
 
-    year = 2014
-    while year > 1963:
-        for month in range(12, 0, -1):
-            scrape(year,month)
-        year -= 1
+    # year = 2014
+    # while year > 1963:
+    #     for month in range(12, 0, -1):
+    #         scrape(year,month)
+    #     year -= 1
+
+    scrape(1899,12)
     print("#############################################")
     print("Total execution time: ",(time.time() - start_time_))  

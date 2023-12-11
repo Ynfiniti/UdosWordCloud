@@ -15,7 +15,7 @@ BEGIN
     
 	SET token_array_local = token_array_param;
     SET start_pos = 1;
-    SET comma_pos = locate(',', token_array_local);
+    SET comma_pos = locate('##', token_array_local);
     
     -- loop tokens
     REPEAT
@@ -30,8 +30,8 @@ BEGIN
         -- LOOP CONTENT
      
 		-- get key and value
-        SET current_token_key = substring_index(current_token,':',1);
-        SET current_token_value = CAST(substring_index(current_token,':',-1) AS SIGNED);
+        SET current_token_key = substring_index(current_token,'==',1);
+        SET current_token_value = CAST(substring_index(current_token,'==',-1) AS SIGNED);
         -- insert single token
         INSERT IGNORE INTO token (name,amount,articleID) VALUES (current_token_key,current_token_value,article_id_param);
         
@@ -39,7 +39,7 @@ BEGIN
 
         IF end_loop = 0 THEN
             SET token_array_local = substring(token_array_local, comma_pos + 1);
-            SET comma_pos = locate(',', token_array_local);
+            SET comma_pos = locate('##', token_array_local);
         END IF;
     UNTIL end_loop = 1
     

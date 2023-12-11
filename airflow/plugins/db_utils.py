@@ -10,8 +10,8 @@ def parse_params_for_database(article:dict)->list:
     params = [
         formate_article_date(article["date"]),
         article["href"],
-        ",".join(article["topics"]),
-        ",".join(f"{key}:{value['amount']}" for key, value in article["wordCount"].items())
+        "##".join(article["topics"]),
+        "##".join(f"{key}=={value['amount']}" for key, value in article["wordCount"].items())
     ]
     return params
 
