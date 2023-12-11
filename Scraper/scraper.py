@@ -50,16 +50,18 @@ def formate_article_date(date:str)->datetime:
 def create_article_in_db(article,db_connection):
     params = parse_params_for_database(article)
     # return params
+    # print(params)
     try:
         cursor = db_connection.cursor()
         cursor.callproc("CreateArticle",params)
         for result in cursor.stored_results():
             rows = result.fetchall()
             if rows:
-                articel_id_found = rows[0][0]
-                # print(f"Found articleID: {articel_id_found}")
+                article_id_found = rows[0][0]
+                # print(f"Found articleID: {article_id_found}")
+                db_connection.commit()
                 cursor.close()
-                return articel_id_found
+                return article_id_found
             else:
                 print("Article not found")
     except Exception as err:
@@ -74,19 +76,10 @@ def parse_params_for_database(article:dict)->list:
     ]
     return params
 
-if __name__ == '__main__':
+def scrape(year,month):
+    print(f"====== {year}-{month} ======")
     start_time = time.time()
-
-    year = 1963
-    month = 6
-    day = None
-    
     docs = fetch_month(year,month)
-
-    if day is not None:
-        target_date = datetime(year,month,day)
-        # filter by date
-        docs = [item for item in docs if datetime.strptime(item["publish_date"], "%Y-%m-%dT%H:%M:%S%z").date() == target_date.date()]
 
     article_word_count = parse_docs(docs)
     print("Number of articles: ",len(article_word_count))
@@ -104,8 +97,21 @@ if __name__ == '__main__':
     for article in article_word_count:
         create_article_in_db(article,mydb)
 
+    mydb.close()
+
     upload_time = time.time() - start_time
     print("Total upload time:", upload_time)
     print("Average upload time per article: ", upload_time/len(article_word_count))
     print("Average upload time per 100 article: ", upload_time*100/len(article_word_count))
-    print("Total execution time: ",(upload_time + parse_time))
+    print("Total execution time this month: ",(upload_time + parse_time))
+
+if __name__ == '__main__':
+    start_time_ = time.time()
+
+    year = 2014
+    while year > 1963:
+        for month in range(12, 0, -1):
+            scrape(year,month)
+        year -= 1
+    print("#############################################")
+    print("Total execution time: ",(time.time() - start_time_))
