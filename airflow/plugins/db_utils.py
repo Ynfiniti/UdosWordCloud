@@ -24,10 +24,11 @@ def create_article_in_db(article,db_connection):
         for result in cursor.stored_results():
             rows = result.fetchall()
             if rows:
-                articel_id_found = rows[0][0]
-                # print(f"Found articleID: {articel_id_found}")
+                article_id_found = rows[0][0]
+                # print(f"Found articleID: {article_id_found}")
+                db_connection.commit()
                 cursor.close()
-                return articel_id_found
+                return article_id_found
             else:
                 print("Article not found")
     except Exception as err:
@@ -47,7 +48,7 @@ def formate_article_date(date:str)->datetime:
 
 def set_date_state(date:str,state:DatabaseDateStates,db_connection):
     statement = "UPDATE date SET state = %s WHERE publish_date = Date(%s);"
-    values = (state,date)
+    values = (state.value,date)
     cursor = db_connection.cursor()
     cursor.execute(statement,values)
     db_connection.commit()

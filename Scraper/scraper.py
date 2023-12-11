@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime,timedelta
 import requests
 import json
 from multiprocessing import Pool, Manager
@@ -7,6 +7,14 @@ from modules.lang_utils import parseArticle
 from project_secrets import db_secrets,nyt_secrets
 import mysql.connector
 import time
+
+from enum import Enum
+
+class DatabaseDateStates(Enum):
+    OPEN = 0
+    IN_PROGRESS = 1
+    FINISHED = 2
+
 
 api_key = nyt_secrets["API_KEY"]
 db_host = db_secrets["HOST"]
@@ -46,6 +54,30 @@ def formate_article_date(date:str)->datetime:
     day = int(splitted_date[2].lstrip("0"))
     date_ = datetime(year,month,day)
     return date_
+
+def first_and_last_day_of_month(year, month):
+    first_day = datetime(year, month, 1)
+    if month == 12:
+        next_month = datetime(year + 1, 1, 1)
+    else:
+        next_month = datetime(year, month + 1, 1)
+    last_day = next_month - timedelta(days=1)
+    return first_day, last_day
+
+
+def set_date_state_month(year:int,month:int,state:DatabaseDateStates,db_connection):
+    first_day, last_day = first_and_last_day_of_month(year, month)
+    statement = "UPDATE date SET state = %s WHERE publish_date >= DATE(%s) AND publish_date <= DATE(%s)"
+    # statement = f"UPDATE date SET state = {state} WHERE publish_date >= DATE('{year}-{month}-{first_day.day}') AND publish_date <= DATE('{year}-{month}-{last_day.day}')"
+    # print(first_day,"  ", last_day)
+    values = (
+        state.value,
+        f"{year}-{month}-{first_day.day}",
+        f"{year}-{month}-{last_day.day}"
+        )
+    cursor = db_connection.cursor()
+    cursor.execute(statement,values)
+    db_connection.commit()
 
 def create_article_in_db(article,db_connection):
     params = parse_params_for_database(article)
@@ -96,6 +128,8 @@ def scrape(year,month):
     
     for article in article_word_count:
         create_article_in_db(article,mydb)
+    
+    set_date_state_month(year,month,DatabaseDateStates.FINISHED,mydb)
 
     mydb.close()
 
@@ -114,4 +148,4 @@ if __name__ == '__main__':
             scrape(year,month)
         year -= 1
     print("#############################################")
-    print("Total execution time: ",(time.time() - start_time_))
+    print("Total execution time: ",(time.time() - start_time_))  

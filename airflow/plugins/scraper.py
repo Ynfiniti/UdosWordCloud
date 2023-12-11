@@ -66,6 +66,7 @@ def scrape(date:datetime,state:DatabaseDateStates):
         state=state,
         db_connection=mydb
     )
+    mydb.close()
 
 def daily_scrape():
     '''
