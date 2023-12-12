@@ -13,7 +13,7 @@ BEGIN
     
 	SET topic_array_local = topic_array_param;
     SET start_pos = 1;
-    SET comma_pos = locate('##', topic_array_local);
+    SET comma_pos = locate(',', topic_array_local);
     
     -- loop topics
     REPEAT
@@ -41,7 +41,7 @@ BEGIN
 
         IF end_loop = 0 THEN
             SET topic_array_local = substring(topic_array_local, comma_pos + 1);
-            SET comma_pos = locate('##', topic_array_local);
+            SET comma_pos = locate(',', topic_array_local);
         END IF;
     UNTIL end_loop = 1
     

@@ -7,6 +7,7 @@ from modules.lang_utils import parseArticle
 from project_secrets import db_secrets,nyt_secrets
 import mysql.connector
 import time
+import urllib.parse
 
 from enum import Enum
 
@@ -80,8 +81,8 @@ def set_date_state_month(year:int,month:int,state:DatabaseDateStates,db_connecti
 
 def create_article_in_db(article,db_connection):
     params = parse_params_for_database(article)
+    # print(params[3])
     # return params
-    # print(params)
     try:
         cursor = db_connection.cursor()
         cursor.callproc("CreateArticle",params)
@@ -102,8 +103,8 @@ def parse_params_for_database(article:dict)->list:
     params = [
         formate_article_date(article["date"]),
         article["href"],
-        ",".join(article["topics"]),
-        ",".join(f"{key}:{value['amount']}" for key, value in article["wordCount"].items())
+        ",".join(urllib.parse.quote(topic.strip()) for topic in article["topics"]),
+        ",".join(f"{urllib.parse.quote(key.strip())}:{value['amount']}" for key, value in article["wordCount"].items())
     ]
     return params
 
@@ -141,12 +142,14 @@ def scrape(year,month):
 if __name__ == '__main__':
     start_time_ = time.time()
 
-    # year = 2014
-    # while year > 1963:
-    #     for month in range(12, 0, -1):
-    #         scrape(year,month)
-    #     year -= 1
+    year = 2023
+    while year >= 2000:
+        for month in range(12, 0, -1):
+            scrape(year,month)
+        year -= 1
 
-    scrape(1899,12)
+    # scrape(2023,11)
+    # scrape(2023,10)
+    # scrape(2023,9)
     print("#############################################")
     print("Total execution time: ",(time.time() - start_time_))  

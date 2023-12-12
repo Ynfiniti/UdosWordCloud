@@ -1,6 +1,7 @@
 import datetime
 from mysql.connector import Error as mysql_error
 from enum import Enum
+import urllib.parse
 
 class DatabaseDateStates(Enum):
     OPEN = 0
@@ -12,8 +13,8 @@ def parse_params_for_database(article:dict)->list:
     params = [
         formate_article_date(article["date"]),
         article["href"],
-        "##".join(article["topics"]),
-        "##".join(f"{key}=={value['amount']}" for key, value in article["wordCount"].items())
+        ",".join(urllib.parse.quote(topic.strip()) for topic in article["topics"]),
+        ",".join(f"{urllib.parse.quote(key.strip())}:{value['amount']}" for key, value in article["wordCount"].items())
     ]
     return params
 
