@@ -9,8 +9,8 @@ export async function GET(event: RequestEvent) {
 
     const {result, error} = await getCloud({dateMax, dateMin, forTopic})
 
-    if(error){
-        console.log("Error in cloud api: ", error)
+    if(error || !result){
+        console.log("Error in cloud api: ", dateMin, dateMax, forTopic, "\n", error)
         return json([])
     }
 

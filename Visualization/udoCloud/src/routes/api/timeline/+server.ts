@@ -10,12 +10,13 @@ export async function GET(event: RequestEvent) {
     const forTopic: boolean = event.url.searchParams.get("forTopic") === "true"
 
     const {result, error} = await getTimeline({value, forTopic})
-    const retTimeline = parseTimeline(result?.timeline as Array<DBTimelineReturn> || [])
 
-
-    if(error){
+    if(error || !result){
         console.log("Error in timeline api", value, forTopic, "\n", error)
+        return json([])
     }
+
+    const retTimeline = parseTimeline(result.timeline[0] as Array<DBTimelineReturn> || [])
 
     return json(retTimeline)
 }
