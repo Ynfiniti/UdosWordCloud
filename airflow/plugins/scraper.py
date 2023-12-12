@@ -55,7 +55,7 @@ def scrape(date:datetime,state:DatabaseDateStates):
         host=db_secrets["HOST"],
         user=db_secrets["USER"],
         password=db_secrets["PASSWORD"],
-        database="udocloud"
+        database=db_secrets["DATABASE"]
     )
     # upload to database
     for article in article_word_count:

@@ -15,12 +15,11 @@ class DatabaseDateStates(Enum):
     IN_PROGRESS = 1
     FINISHED = 2
 
-
 api_key = nyt_secrets["API_KEY"]
 db_host = db_secrets["HOST"]
 db_user = db_secrets["USER"]
 db_password = db_secrets["PASSWORD"]
-db_database = "udocloud"
+db_database = db_secrets["DATABASE"]
 
 def fetch_month(year:int,month:int)->dict:
     global api_key
