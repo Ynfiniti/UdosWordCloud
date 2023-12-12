@@ -1,7 +1,7 @@
 ## Setup
 
 Inside this udoCloud project, first run `npm install` and then copy 
-the `secrets.json` file into the `static` folder
+the `db.json` file from the drive into the `static` folder
 
 ## Run
 
