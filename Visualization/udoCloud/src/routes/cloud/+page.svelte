@@ -4,7 +4,12 @@
     import {onMount} from "svelte";
     import type {ChartTabularData, WordCloudChart as WordCloudChartCore} from '@carbon/charts'
     import {WordCloudChart} from "@carbon/charts-svelte";
-    import type {CloudSearchInputs, WordCloudEvent, WordCloudProps} from "$lib/charts/cloud/cloudTypes";
+    import {
+        type CloudSearchInputs,
+        DATE_MIN,
+        type WordCloudEvent,
+        type WordCloudProps
+    } from "$lib/charts/cloud/cloudTypes";
     import CloudSearchInput from "$lib/charts/cloud/CloudSearchInput.svelte";
     import {dbStore} from "$lib/database/dbStore";
     import {loadingStore} from "$lib/charts/chartUtils";
@@ -14,8 +19,8 @@
      * Inits for SearchInput
      */
     let initialValues = {
-        initialDateMin: $page.url.searchParams.get('dateMin') || "1852-01-01",
-        initialDateMax: $page.url.searchParams.get('dateMax') || "2001-09-30",
+        initialDateMin: $page.url.searchParams.get('dateMin') || DATE_MIN,
+        initialDateMax: $page.url.searchParams.get('dateMax') || "",
         initialForTopic: $page.url.searchParams.get('forTopic') == "false",
     }
 
