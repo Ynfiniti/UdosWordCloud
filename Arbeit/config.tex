@@ -1,0 +1,92 @@
+\usepackage[ngerman]{babel} % language support
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} % displaying images
+\usepackage{scrlayer-scrpage}
+\usepackage[german=quotes]{csquotes} % quote
+\usepackage{ulem}
+\usepackage{multirow} % use of multiple rows and columns
+\usepackage{tablefootnote} % footnote in tables
+% \usepackage{svg} % use of svg
+\usepackage[table,xcdraw]{xcolor}  
+\usepackage{listings} % Use of code
+\usepackage{xcolor} % Color of codings
+\usepackage{array} % Alignment of table columns
+\usepackage{longtable}  %span table over multiple pages
+\usepackage[printonlyused,withpage]{acronym}
+
+\usepackage{tikz} %for checkmark
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+
+\useunder{\uline}{\ul}{}
+
+% Design of Codeblock
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+    backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+    basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+    breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    breaklines=true,                 % sets automatic line breaking
+    captionpos=b,                    % sets the caption-position to bottom
+    commentstyle=\color{mygreen},    % comment style
+    extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+    firstnumber=1,                   % start line enumeration with line 1000
+    frame=single,	                   % adds a frame around the code
+    keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+    keywordstyle=\color{blue},       % keyword style
+    language=SQL,                 % the language of the code
+    morekeywords={foaf, rel, base, rdf},            % if you want to add more keywords to the set
+    numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+    numbersep=5pt,                   % how far the line-numbers are from the code
+    numberstyle=\color{mygray}, % the style that is used for the line-numbers
+    rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+    showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+    showstringspaces=false,          % underline spaces within strings only
+    showtabs=false,                  % show tabs within strings adding particular underscores
+    stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+    stringstyle=\color{mymauve},     % string literal style
+    tabsize=2,	                   % sets default tabsize to 2 spaces
+    title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+
+% definition of own Table column style which is centered vertically and horizontally
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+% forcing placement of figures
+\usepackage{float}
+
+% Changing emphasize style and force wrapping in bibliography
+\usepackage{ulem}
+
+% Reference-packages, have to be at the end of 'imports'
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+
+\graphicspath{images}
+\linespread{1.25}
+
+% Remove big spacing of chapter beginning
+\renewcommand*{\chapterheadstartvskip}{\vspace*{0cm}}
+
+\counterwithout{footnote}{chapter}
+
+% Creation of Bibliography
+\newcommand{\settingBibFootnoteCite}{
+    \setlength{\bibparsep}{\parskip}		  % Add some space between biblatex entries in the bibliography
+    \addbibresource{bibliography.bib}	    % Add file bibliography.bib as biblatex resource
+    \setcounter{biburlnumpenalty}{9000}
+    \setcounter{biburlucpenalty}{9000}
+    \setcounter{biburllcpenalty}{9000}
+    \DefineBibliographyStrings{ngerman}{andothers = {{et\,al\adddot}},}
+}
+
+
+\newcommand{\initializeBibliography}{
+    \ihead{}
+    \normalem
+    \printbibliography[title=Literaturverzeichnis]
+}

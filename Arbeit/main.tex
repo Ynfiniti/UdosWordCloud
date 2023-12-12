@@ -1,0 +1,43 @@
+\documentclass[
+    paper=a4,
+    fontsize=12pt,
+    DIV=12,
+    headings=normal,
+    headsepline,
+    parskip=half,
+    listof=totoc,
+    toc=bibliography,
+    ngerman]{scrreport}
+
+\pagestyle{headings}
+
+\input{config}
+
+\usepackage[backend=biber, autocite=inline, style=numeric,sorting=none]{biblatex}
+
+\settingBibFootnoteCite
+
+\makeindex
+
+\begin{document}
+
+\input{prefix/title}
+
+\pagenumbering{Roman}
+\setcounter{page}{2}
+\include{prefix/proclamation}
+\tableofcontents
+
+\include{chapters/1-intro}
+\chapter{title}
+
+
+
+
+\pagenumbering{Roman}
+\setcounter{page}{13}
+
+\include{suffix/reference}
+\include{suffix/appendix}
+
+\end{document}
