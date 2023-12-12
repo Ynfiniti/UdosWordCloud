@@ -55,7 +55,7 @@
         let newData: ChartTabularData = $dbStore.cloud as ChartTabularData || []
         wordCloudData.data = newData.map(d => {
                 d["word"] = d["name"]
-                d["value"] = parseFloat(d["amount"])
+                d["value"] = d["amount"]
                 d["group"] = d["amount"]
                 delete d["name"]
                 delete d["amount"]
