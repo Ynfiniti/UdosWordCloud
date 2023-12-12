@@ -17,3 +17,4 @@ Visualization/udoCloud/.idea/
 /**/project_secrets/*.json
 test.*
 /venv
+/.idea
