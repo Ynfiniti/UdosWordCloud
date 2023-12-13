@@ -1,4 +1,5 @@
 <script lang="ts">
+    import "../app.pcss";
     import '@carbon/charts-svelte/styles.css'
 </script>
 
@@ -15,10 +16,10 @@
 
 	<h1>
 		<div id="header">
-			<img src="/Udo.png" alt="Udo"/>
+			<img src="/Udo.png" alt="Udo">
 			Welcome to UdoCloud
 		</div>
 	</h1>
 <a href="/">Home</a>
 <br>
-<slot/>
+<slot></slot>
