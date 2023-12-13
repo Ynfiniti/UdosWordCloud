@@ -8,9 +8,9 @@ RUN apt-get update && \
 
 USER airflow
 
-RUN pip install ipykernel       
+# RUN pip install ipykernel       
 
-RUN pip install ipywidgets
+# RUN pip install ipywidgets
 
 RUN pip install -U scikit-learn
 
