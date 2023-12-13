@@ -4,8 +4,22 @@
 
 </script>
 
-<label for="value">searchstring</label>
-<input id="value" type="search" bind:value={value}>
+<style>
+    label, button{
+        margin-right: 1em;
+    }
+</style>
 
-<label for="forTopic">Search for topics</label>
-<input id="forTopic" type="checkbox" bind:checked={forTopic}>
+<div class="flex flex-row items-center">
+	<label class="label">
+		searchstring
+		<input id="value" class="input h-8" type="search" bind:value={value}>
+	</label>
+
+	<label class="label flex flex-col">
+		Search for Topic
+		<input id="forTopic" class="checkbox mt-1" type="checkbox" bind:checked={forTopic}>
+	</label>
+
+	<slot></slot>
+</div>

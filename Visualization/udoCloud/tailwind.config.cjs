@@ -2,6 +2,7 @@ import { join } from 'path';
 
 // 1. Import the Skeleton plugin
 import { skeleton } from '@skeletonlabs/tw-plugin';
+import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config}*/
 const config = {
@@ -20,6 +21,7 @@ const config = {
 	},
 	plugins: [
 		// 4. Append the Skeleton plugin (after other plugins)
+		forms,
 		skeleton({
 			themes: { preset: [ "vintage" ] }
 		})

@@ -14,12 +14,13 @@
 	}
 </style>
 
-	<h1>
+	<a class="h1" href="/">
 		<div id="header">
 			<img src="/Udo.png" alt="Udo">
 			Welcome to UdoCloud
 		</div>
-	</h1>
-<a href="/">Home</a>
+	</a>
+
 <br>
+
 <slot></slot>

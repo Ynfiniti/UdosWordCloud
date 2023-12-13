@@ -25,13 +25,27 @@
       }
 </script>
 
-<label for="datemin">start</label>
-<input id="datemin" type="date" min="{DATE_MIN}" bind:value={searchInputs.dateMin}>
+<style>
+	label, button{
+			margin-right: 1em;
+	}
+</style>
 
-<label for="datemax">end</label>
-<input id="datemax" type="date" min="{searchInputs.dateMin}" bind:value={searchInputs.dateMax}>
+<div class="flex flex-wrap flex-row">
+	<label class="label">
+		start
+		<input id="datemin" class="input" type="date" min="{DATE_MIN}" bind:value={searchInputs.dateMin}>
+	</label>
 
-<label for="forTopic">Search for topics</label>
-<input id="forTopic" type="checkbox" bind:checked={searchInputs.forTopic}>
+	<label class="label">
+		end
+		<input id="datemax" class="input" type="date" min="{searchInputs.dateMin}" bind:value={searchInputs.dateMax}>
+	</label>
 
-<button on:click={submit}>Submit</button>
+	<label class="label flex flex-col">
+		Search for topics
+		<input id="forTopic" class="checkbox mt-2.5" type="checkbox" bind:checked={searchInputs.forTopic}>
+	</label>
+</div>
+
+<button class="btn btn-sm variant-filled-primary mt-2.5" on:click={submit}>Submit</button>
