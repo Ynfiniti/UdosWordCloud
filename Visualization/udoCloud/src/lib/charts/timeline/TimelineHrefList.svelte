@@ -16,7 +16,7 @@
 
 </script>
 
-<h1>Href list</h1>
+<h2 class="h2">Href list</h2>
 <ul>
     {#each hrefs as href (href)}
         <li>

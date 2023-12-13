@@ -15,7 +15,7 @@ export async function GET(event: RequestEvent) {
     }
 
     const wordcloud = result.wordcloud[0].map(ele => {
-        ele.name = decodeURI(ele.name)
+        ele.name = decodeURIComponent(ele.name)
         ele.amount = parseInt(ele.amount)
         return ele
     })
