@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 # import variables from project_secrets and modules
 from project_secrets import db_secrets,nyt_secrets
-from db_utils import create_article_in_db, DatabaseDateStates,set_date_state
+from db_utils import create_article_in_db, DatabaseDateStates, set_date_state
 from lang_utils import parseArticle
 
 # import libraries
@@ -87,3 +87,5 @@ def hourly_scrape():
         date=date,
         state=DatabaseDateStates.IN_PROGRESS
     )
+
+  

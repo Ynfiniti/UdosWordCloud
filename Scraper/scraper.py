@@ -68,8 +68,6 @@ def first_and_last_day_of_month(year, month):
 def set_date_state_month(year:int,month:int,state:DatabaseDateStates,db_connection):
     first_day, last_day = first_and_last_day_of_month(year, month)
     statement = "UPDATE date SET state = %s WHERE publish_date >= DATE(%s) AND publish_date <= DATE(%s)"
-    # statement = f"UPDATE date SET state = {state} WHERE publish_date >= DATE('{year}-{month}-{first_day.day}') AND publish_date <= DATE('{year}-{month}-{last_day.day}')"
-    # print(first_day,"  ", last_day)
     values = (
         state.value,
         f"{year}-{month}-{first_day.day}",
@@ -142,14 +140,14 @@ def scrape(year,month):
 if __name__ == '__main__':
     start_time_ = time.time()
 
-    year = 2023
-    while year >= 2000:
-        for month in range(12, 0, -1):
-            scrape(year,month)
-        year -= 1
+    scrape(2013,2)
+    scrape(2013,1)
 
-    # scrape(2023,11)
-    # scrape(2023,10)
-    # scrape(2023,9)
+    # year = 2022
+    # while year >= 2000:
+    #     for month in range(12, 0, -1):
+    #         scrape(year,month)
+    #     year -= 2
+
     print("#############################################")
     print("Total execution time: ",(time.time() - start_time_))  

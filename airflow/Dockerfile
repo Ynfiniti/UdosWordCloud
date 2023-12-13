@@ -1,4 +1,4 @@
-FROM apache/airflow:latest
+FROM apache/airflow:latest-python3.10
 
 USER root
 
@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 USER airflow
 
-RUN pip install ipykernel       
+RUN pip install ipykernel
 
 RUN pip install ipywidgets
 
@@ -20,7 +20,7 @@ RUN pip install spacy
 
 RUN python -m spacy download en_core_web_lg
 
-RUN python -m pip install mysql-connector-python
+RUN python -m pip install mysql-connector-python==8.2.0
 
 COPY requirements.txt /tmp/requirements.txt
 

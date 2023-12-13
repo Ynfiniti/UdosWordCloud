@@ -13,20 +13,20 @@ services:
 
     command: airflow standalone
 
-  app:
-    build: 
-     context: Visualization/udoCloud
+  # app:
+  #   build: 
+  #    context: Visualization/udoCloud
 
-    ports:
-      - "4173:4173"
+  #   ports:
+  #     - "4173:4173"
 
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./server/nginx.conf:/etc/nginx/nginx.conf:ro
+  # nginx:
+  #   image: nginx:latest
+  #   volumes:
+  #     - ./server/nginx.conf:/etc/nginx/nginx.conf:ro
 
-    depends_on:
-      - app
+  #   depends_on:
+  #     - app
 
-    ports:
-      - "80:80"
+  #   ports:
+  #     - "80:80"
