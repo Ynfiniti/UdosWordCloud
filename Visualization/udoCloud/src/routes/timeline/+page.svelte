@@ -10,6 +10,7 @@
     import type {Href} from "$lib/database/dbTypes";
     import TimelineSearchMultiple from "$lib/charts/timeline/TimelineSearchMultiple.svelte";
     import {lineChartProps} from "$lib/charts/timeline/timelineUtils";
+		import LoadingContainer from '$lib/LoadingContainer.svelte';
 
     /**
      * Inits for SearchInput
@@ -67,6 +68,8 @@
 
 <TimelineSearchMultiple {...initialSearch} on:submit={searchInputSubmit}></TimelineSearchMultiple>
 
-<LineChart bind:chart {...lineCharData}/>
+<LoadingContainer>
+	<LineChart bind:chart {...lineCharData}/>
 
-<TimelineHrefList bind:initialHrefs={selectedHrefs}></TimelineHrefList>
+	<TimelineHrefList bind:initialHrefs={selectedHrefs}></TimelineHrefList>
+</LoadingContainer>

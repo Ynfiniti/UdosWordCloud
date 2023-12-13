@@ -14,6 +14,7 @@
     import {dbStore} from "$lib/database/dbStore";
     import {loadingStore} from "$lib/charts/chartUtils";
     import {wordCloudProps} from "$lib/charts/cloud/cloudUtils";
+		import LoadingContainer from '$lib/LoadingContainer.svelte';
 
     /**
      * Inits for SearchInput
@@ -68,4 +69,6 @@
 
 <CloudSearchInput {...initialValues} bind:searchInputs on:submit={searchInputSubmit}></CloudSearchInput>
 
-<WordCloudChart bind:chart {...wordCloudData}></WordCloudChart>
+<LoadingContainer>
+	<WordCloudChart bind:chart {...wordCloudData}></WordCloudChart>
+</LoadingContainer>
