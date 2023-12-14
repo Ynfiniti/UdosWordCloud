@@ -2,6 +2,7 @@
     import {page} from "$app/stores";
     import {goto} from '$app/navigation';
     import {onMount} from "svelte";
+		import "./chart.css";
     import type {ChartTabularData, WordCloudChart as WordCloudChartCore} from '@carbon/charts'
     import {WordCloudChart} from "@carbon/charts-svelte";
     import {
