@@ -33,6 +33,9 @@ export const lineChartProps: LineChartProps = {
                 scaleType: "linear" as ScaleTypes
             }
         },
+        points: {
+            radius: 4
+        },
         height: "400px"
     },
     data: [] as ChartTabularData
