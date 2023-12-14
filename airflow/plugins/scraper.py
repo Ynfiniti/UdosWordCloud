@@ -10,7 +10,7 @@ from db_utils import create_article_in_db, DatabaseDateStates,set_date_state
 from lang_utils import parseArticle
 
 # import libraries
-import mysql.connector
+# import mysql.connector
 import requests
 import json
 from datetime import datetime, timedelta
@@ -51,22 +51,22 @@ def scrape(date:datetime,state:DatabaseDateStates):
     # parse docs
     article_word_count = parse_docs(docs)
     # create database connnection
-    mydb = mysql.connector.connect(
-        host=db_secrets["HOST"],
-        user=db_secrets["USER"],
-        password=db_secrets["PASSWORD"],
-        database=db_secrets["DATABASE"]
-    )
-    # upload to database
-    for article in article_word_count:
-        create_article_in_db(article,mydb)
-    # set state to finished
-    set_date_state(
-        date=f"{year}-{month}-{day}",
-        state=state,
-        db_connection=mydb
-    )
-    mydb.close()
+    # mydb = mysql.connector.connect(
+    #     host=db_secrets["HOST"],
+    #     user=db_secrets["USER"],
+    #     password=db_secrets["PASSWORD"],
+    #     database=db_secrets["DATABASE"]
+    # )
+    # # upload to database
+    # for article in article_word_count:
+    #     create_article_in_db(article,mydb)
+    # # set state to finished
+    # set_date_state(
+    #     date=f"{year}-{month}-{day}",
+    #     state=state,
+    #     db_connection=mydb
+    # )
+    # mydb.close()
 
 def daily_scrape():
     '''
