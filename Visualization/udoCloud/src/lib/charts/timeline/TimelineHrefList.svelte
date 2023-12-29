@@ -20,7 +20,7 @@
 <ul>
     {#each hrefs as href (href)}
         <li>
-            ({href.amount} times) <a href={href.link}>{href.link}</a>
+            ({href.amount} times) <a target="_blank" href={href.link}>{href.link}</a>
         </li>
     {/each}
 </ul>
