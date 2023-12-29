@@ -1,6 +1,7 @@
-import {Alignments, type ScaleTypes} from "@carbon/charts-svelte";
-import {type ChartTabularData, ZoomBarTypes} from "@carbon/charts";
-import type {LineChartProps} from "$lib/charts/timeline/timelineTypes";
+import { Alignments, type ScaleTypes } from '@carbon/charts-svelte';
+import { type ChartTabularData, ZoomBarTypes } from '@carbon/charts';
+import type { LineChartProps } from '$lib/charts/timeline/timelineTypes';
+import { replaceLastLiUl, tooltipExtension } from '$lib/charts/chartUtils';
 
 export const lineChartProps: LineChartProps = {
     options: {
@@ -10,7 +11,13 @@ export const lineChartProps: LineChartProps = {
             alignment: Alignments.CENTER
         },
         tooltip: {
-            enabled: true
+            enabled: true,
+            customHTML: (_, defaultHTML) => {
+                return defaultHTML
+                    .replace(replaceLastLiUl, "")
+                  + tooltipExtension.replace("#1", "Click to view Hrefs")
+
+            }
         },
         zoomBar: {
             top: {

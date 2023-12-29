@@ -9,6 +9,7 @@ function createLoadingStore() {
     }
 }
 
-export const replaceGroupText = "Group"
+export const replaceLastLiUl = /<\/ul>/gs
+export const tooltipExtension = `<li><div class="datapoint-tooltip"><div class="label"><p>#1</p></div></li></ul>`
 
 export const loadingStore = createLoadingStore()

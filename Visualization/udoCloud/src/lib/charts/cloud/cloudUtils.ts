@@ -1,7 +1,7 @@
-import {replaceGroupText} from "$lib/charts/chartUtils";
-import type {ChartTabularData} from "@carbon/charts";
-import type {WordCloudProps} from "$lib/charts/cloud/cloudTypes";
-import type {ChartTheme} from "@carbon/charts-svelte";
+import { replaceLastLiUl, tooltipExtension } from '$lib/charts/chartUtils';
+import type { ChartTabularData } from '@carbon/charts';
+import type { WordCloudProps } from '$lib/charts/cloud/cloudTypes';
+import type { ChartTheme } from '@carbon/charts-svelte';
 
 export const wordCloudProps: WordCloudProps = {
     options: {
@@ -12,7 +12,10 @@ export const wordCloudProps: WordCloudProps = {
         tooltip: {
             enabled: true,
             customHTML: (_, defaultHTML) => {
-                return defaultHTML.replace(replaceGroupText, "Click to view Timeline")
+                return defaultHTML
+                  .replace(replaceLastLiUl, "")
+                + tooltipExtension.replace("#1", "Click to view Timeline")
+
             }
         },
         data: {
