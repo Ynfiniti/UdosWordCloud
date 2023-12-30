@@ -1,32 +1,40 @@
 # UdoCluster
-py -3.11 -m venv UdoScraper  
 
-UdoScraper/Scripts/activate
+A Big Data-project as part of the class "Big Data Analytics" in the winter semester 2023 of the course TINF21AI2 at DHBW Mannheim.
 
-pip install ipykernel       
+## Contributors
 
-pip install ipywidgets
+| Name | Matrikel number |
+| --- | --- |
+| Matthias Heilmann | 4186046 |
+| Lorenz Müller | 8350586 |
+| Sean Schwarz | 3446064 |
+| Leo Stadtler | 9230282 |
 
-pip install transformers
+# Quickstart
 
-pip install tensorflow
+## Run the application
 
-pip install -U scikit-learn
+You need to have Docker and docker compose installed on your device.
 
-pip install -U pip setuptools wheel
+Before starting the application, copy the files 
 
-pip install spacy
+- [db.json](https://drive.google.com/file/d/1HnB43OQrPZAuC4CG9U0hzCnN3fV7t2_3/view?usp=drive_link) and [nyt.json](https://drive.google.com/file/d/1oodDslsXbQEkNT_JPbDOQHqu1_OPnhV8/view?usp=drive_link) into the folders **airflow/project_secrets** and 
 
-python -m spacy download en_core_web_lg
+- [db.json](https://drive.google.com/file/d/1HnB43OQrPZAuC4CG9U0hzCnN3fV7t2_3/view?usp=drive_link) into **Visualization/udoCloud/static**
 
-python -m pip install mysql-connector-python
+To start the application, run on you windows machine 
 
-ipython kernel install --user --name=UdoScraperVenv
-
-**Select new kernel for jupyter to run inside the venv**
-
-To check if it worked, following code should return ```True``` 
-``` python
-import sys
-sys.prefix != sys.base_prefix
+```sh
+docker compose up --build
 ```
+
+or
+
+```sh
+docker-compose up --build
+```
+
+Keep in mind that Docker Desktop must be running.
+
+The visualization will be running on [localhost:80](http://localhost) and airflow on [localhost:8080](http://localhost:8080) (you will find the password to airflow in the file **airflow/standalone_admin_password.txt**, the username should be "airflow" or "root")

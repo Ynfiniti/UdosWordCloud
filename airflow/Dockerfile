@@ -8,19 +8,17 @@ RUN apt-get update && \
 
 USER airflow
 
-RUN pip install ipykernel       
-
-RUN pip install ipywidgets
-
 RUN pip install -U scikit-learn
 
 RUN pip install -U pip setuptools wheel
 
 RUN pip install spacy
 
-RUN python -m spacy download en_core_web_lg
+RUN pip install numpy
 
 RUN python -m pip install mysql-connector-python
+
+RUN python -m pip install mysql-connector
 
 COPY requirements.txt /tmp/requirements.txt
 

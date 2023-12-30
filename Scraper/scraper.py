@@ -38,7 +38,7 @@ def parse_docs(docs):
     with Manager() as smm:
         sl = smm.list()
         sl.extend(docs)
-        with Pool(processes=10) as p:
+        with Pool(processes=3) as p:
             for res in p.imap_unordered(parseArticle, sl, chunksize=10):
                 article_word_count.append(res)
     return article_word_count
@@ -142,13 +142,13 @@ def scrape(year,month):
 if __name__ == '__main__':
     start_time_ = time.time()
 
-    year = 2023
-    while year >= 2000:
-        for month in range(12, 0, -1):
-            scrape(year,month)
-        year -= 1
+    # year = 2023
+    # while year >= 2000:
+    #     for month in range(12, 0, -1):
+    #         scrape(year,month)
+    #     year -= 1
 
-    # scrape(2023,11)
+    scrape(2023,12)
     # scrape(2023,10)
     # scrape(2023,9)
     print("#############################################")
