@@ -12,6 +12,7 @@
 /.idea/jsonSchemas.xml
 .vscode/settings.json
 Scraper/testfiles/result.json
+Scraper (deprecated)/UdoScraper
 
 Visualization/udoCloud/.idea/
 /**/project_secrets/*.json
